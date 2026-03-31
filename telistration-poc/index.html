@@ -250,6 +250,24 @@
         const currentTimeEl = document.getElementById('current-time');
         const timeRemainingEl = document.getElementById('time-remaining');
         const durationEl = document.getElementById('duration');
+        
+        // Mode Controls
+        const videoWrapper = document.getElementById('video-wrapper');
+        const btnFull = document.getElementById('btn-full');
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+
+        function setMode(mode) {
+            videoWrapper.className = 'video-container mode-' + mode;
+            [btnFull, btnLeft, btnRight].forEach(btn => btn.classList.remove('active'));
+            if (mode === 'full') btnFull.classList.add('active');
+            if (mode === 'left') btnLeft.classList.add('active');
+            if (mode === 'right') btnRight.classList.add('active');
+        }
+
+        btnFull.addEventListener('click', () => setMode('full'));
+        btnLeft.addEventListener('click', () => setMode('left'));
+        btnRight.addEventListener('click', () => setMode('right'));
 
         const videoSrc = 'https://streams.quintar.ai/kyle/20251207-red-green/40Mbps/index.m3u8';
 
