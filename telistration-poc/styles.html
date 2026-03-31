@@ -110,25 +110,19 @@
             box-shadow: 0 0 10px white, 0 0 20px var(--primary);
         }
 
-        .preview-arrow {
-            width: 100px;
-            height: 3px;
-            background: var(--primary);
-            position: relative;
+        .preview-svg {
+            width: 100%;
+            height: 100%;
         }
 
-        .preview-arrow::after {
-            content: '';
-            position: absolute;
-            right: -10px;
-            top: -6px;
-            border-left: 15px solid var(--primary);
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
+        .preview-arrow-path {
+            fill: var(--primary);
+            stroke: var(--primary);
+            stroke-width: 4;
         }
 
-        .preview-arrow.selected {
-            filter: drop-shadow(0 0 5px white) drop-shadow(0 0 10px var(--primary));
+        .preview-arrow-path.selected {
+            filter: drop-shadow(0 0 10px white) drop-shadow(0 0 20px var(--primary));
         }
 
         .code-block {
@@ -214,11 +208,11 @@
                     <div class="preview-ellipse"></div>
                 </div>
                 <h3>Tracking Halo</h3>
-                <p style="font-size: 0.85rem; color: var(--secondary);">An elliptical ring used to highlight players. Features a sinusoidal pulse.</p>
+                <p style="font-size: 0.85rem; color: var(--secondary);">An elliptical ring used to highlight players. Features optional opacity fills.</p>
                 <div class="code-block" style="text-align: left; margin-top: 1rem;">
                     .ellipse-element {<br>
                     &nbsp;&nbsp;border-radius: 50%;<br>
-                    &nbsp;&nbsp;background: rgba(66, 165, 245, 0.2);<br>
+                    &nbsp;&nbsp;box-sizing: border-box;<br>
                     }
                 </div>
             </div>
@@ -229,11 +223,11 @@
                     <div class="preview-ellipse selected"></div>
                 </div>
                 <h3>Selected State</h3>
-                <p style="font-size: 0.85rem; color: var(--secondary);">Active shapes feature a white border and secondary primary-color glow.</p>
+                <p style="font-size: 0.85rem; color: var(--secondary);">Active shapes feature a white border and a strong 20px primary glow.</p>
                 <div class="code-block" style="text-align: left; margin-top: 1rem;">
                     .selected {<br>
                     &nbsp;&nbsp;border-color: #fff;<br>
-                    &nbsp;&nbsp;box-shadow: 0 0 20px var(--primary);<br>
+                    &nbsp;&nbsp;box-shadow: 0 0 10px white, 0 0 20px var(--primary);<br>
                     }
                 </div>
             </div>
@@ -241,14 +235,15 @@
             <!-- Tactical Arrow -->
             <div class="shape-card">
                 <div class="shape-preview">
-                    <div class="preview-arrow"></div>
+                    <svg class="preview-svg" viewBox="0 0 100 100">
+                        <path class="preview-arrow-path" d="M 20 80 Q 50 20 80 20 M 80 20 L 65 25 L 75 35 Z" />
+                    </svg>
                 </div>
-                <h3>Tactical Arrow</h3>
-                <p style="font-size: 0.85rem; color: var(--secondary);">Vector paths for movement. Built with SVG paths and arrowheads.</p>
+                <h3>Curved Arrow</h3>
+                <p style="font-size: 0.85rem; color: var(--secondary);">Vector paths for movement. Quadratic curves with triangular heads.</p>
                 <div class="code-block" style="text-align: left; margin-top: 1rem;">
-                    .curve-element {<br>
-                    &nbsp;&nbsp;stroke: var(--primary);<br>
-                    &nbsp;&nbsp;stroke-width: 4;<br>
+                    .curve-element.selected {<br>
+                    &nbsp;&nbsp;filter: drop-shadow(0 0 10px white) drop-shadow(0 0 20px var(--primary));<br>
                     }
                 </div>
             </div>
@@ -256,11 +251,11 @@
 
         <div class="section-title">Global Layout Constants</div>
         <p style="font-size: 0.95rem; color: var(--secondary);">
-            The system uses dynamic eye-based scaling for stereoscopic top-bottom and side-by-side viewing.
+            The system uses view-filling width constants for a modern, edge-to-edge experience.
         </p>
         <div class="code-block">
-            --eye-width: 45vw;<br>
-            --eye-height: calc(var(--eye-width) * 9 / 16);
+            --player-width: 98vw;<br>
+            --eye-height: calc(var(--player-width) * 9 / 16);
         </div>
     </div>
 
