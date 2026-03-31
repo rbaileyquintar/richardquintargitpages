@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Guide | Richard Quintar</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .style-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #333;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .variable-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .variable-table th, .variable-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .variable-table th {
+            background: #252525;
+            color: var(--primary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .color-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            border: 1px solid #444;
+        }
+
+        .shape-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .shape-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .shape-preview {
+            height: 150px;
+            background: #000;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Preview Shapes */
+        .preview-ellipse {
+            width: 80px;
+            height: 40px;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            background: rgba(66, 165, 245, 0.2);
+        }
+
+        .preview-ellipse.selected {
+            border-color: #fff;
+            box-shadow: 0 0 10px white, 0 0 20px var(--primary);
+        }
+
+        .preview-arrow {
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+            position: relative;
+        }
+
+        .preview-arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -6px;
+            border-left: 15px solid var(--primary);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        .preview-arrow.selected {
+            filter: drop-shadow(0 0 5px white) drop-shadow(0 0 10px var(--primary));
+        }
+
+        .code-block {
+            background: #252525;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #b3e5fc;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <a href="../index.html" class="logo">Richard Quintar</a>
+            <p class="page-title">Style Guide</p>
+        </div>
+        <a href="index.html" style="text-decoration: none; color: var(--secondary); font-size: 0.9rem;">← Back to POC</a>
+    </nav>
+
+    <div class="style-container">
+        <header>
+            <h1>Visual Identity & Constants</h1>
+            <p style="color: var(--secondary);">Documentation of the design system and telestration vocabulary.</p>
+        </header>
+
+        <div class="section-title">Design Tokens (style.css)</div>
+        <table class="variable-table">
+            <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Value</th>
+                    <th>Usage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>--primary</code></td>
+                    <td><span class="color-preview" style="background: #42a5f5;"></span> #42a5f5</td>
+                    <td>Brand color, active states, and primary graphics.</td>
+                </tr>
+                <tr>
+                    <td><code>--secondary</code></td>
+                    <td><span class="color-preview" style="background: #9ea7af;"></span> #9ea7af</td>
+                    <td>De-emphasized text, borders, and inactive states.</td>
+                </tr>
+                <tr>
+                    <td><code>--bg</code></td>
+                    <td><span class="color-preview" style="background: #121212;"></span> #121212</td>
+                    <td>Deep black background for high-contrast video viewing.</td>
+                </tr>
+                <tr>
+                    <td><code>--card-bg</code></td>
+                    <td><span class="color-preview" style="background: #1e1e1e;"></span> #1e1e1e</td>
+                    <td>Surface color for controls, navigation, and cards.</td>
+                </tr>
+                <tr>
+                    <td><code>--text</code></td>
+                    <td><span class="color-preview" style="background: #e0e0e0;"></span> #e0e0e0</td>
+                    <td>Primary readable text color.</td>
+                </tr>
+                <tr>
+                    <td><code>--danger</code></td>
+                    <td><span class="color-preview" style="background: #ef5350;"></span> #ef5350</td>
+                    <td>Errors, delete actions, and opponent team highlights.</td>
+                </tr>
+                <tr>
+                    <td><code>--success</code></td>
+                    <td><span class="color-preview" style="background: #66bb6a;"></span> #66bb6a</td>
+                    <td>Confirmations, completed states, and home team highlights.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">Telestration Shapes</div>
+        <div class="shape-showcase">
+            <!-- Tracking Halo -->
+            <div class="shape-card">
+                <div class="shape-preview">
+                    <div class="preview-ellipse"></div>
+                </div>
+                <h3>Tracking Halo</h3>
+                <p style="font-size: 0.85rem; color: var(--secondary);">An elliptical ring used to highlight players. Features a sinusoidal pulse.</p>
+                <div class="code-block" style="text-align: left; margin-top: 1rem;">
+                    .ellipse-element {<br>
+                    &nbsp;&nbsp;border-radius: 50%;<br>
+                    &nbsp;&nbsp;background: rgba(66, 165, 245, 0.2);<br>
+                    }
+                </div>
+            </div>
+
+            <!-- Selected State -->
+            <div class="shape-card">
+                <div class="shape-preview">
+                    <div class="preview-ellipse selected"></div>
+                </div>
+                <h3>Selected State</h3>
+                <p style="font-size: 0.85rem; color: var(--secondary);">Active shapes feature a white border and secondary primary-color glow.</p>
+                <div class="code-block" style="text-align: left; margin-top: 1rem;">
+                    .selected {<br>
+                    &nbsp;&nbsp;border-color: #fff;<br>
+                    &nbsp;&nbsp;box-shadow: 0 0 20px var(--primary);<br>
+                    }
+                </div>
+            </div>
+
+            <!-- Tactical Arrow -->
+            <div class="shape-card">
+                <div class="shape-preview">
+                    <div class="preview-arrow"></div>
+                </div>
+                <h3>Tactical Arrow</h3>
+                <p style="font-size: 0.85rem; color: var(--secondary);">Vector paths for movement. Built with SVG paths and arrowheads.</p>
+                <div class="code-block" style="text-align: left; margin-top: 1rem;">
+                    .curve-element {<br>
+                    &nbsp;&nbsp;stroke: var(--primary);<br>
+                    &nbsp;&nbsp;stroke-width: 4;<br>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Global Layout Constants</div>
+        <p style="font-size: 0.95rem; color: var(--secondary);">
+            The system uses dynamic eye-based scaling for stereoscopic top-bottom and side-by-side viewing.
+        </p>
+        <div class="code-block">
+            --eye-width: 45vw;<br>
+            --eye-height: calc(var(--eye-width) * 9 / 16);
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Richard Quintar | Design System
+    </footer>
+
+</body>
+</html>

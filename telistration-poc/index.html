@@ -41,36 +41,82 @@
         </div>
 
         <div class="controls">
-        <!-- Row 1: Drawing Tools -->
-        <div class="tool-row">
+        <!-- Row 1: Drawing Tools & Properties -->
+        <div class="tool-row" style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap;">
             <div class="tool-controls">
                 <button class="tool-btn" id="btn-select" title="Select Tool">👆 Select</button>
                 <button class="tool-btn" id="btn-ellipse" title="Ellipse Tool">⭘ Ellipse</button>
-                <button class="tool-btn" id="btn-curve" title="Curve Tool">⤴ Curve</button>
+                <button class="tool-btn" id="btn-curve" title="Line Tool">― Line</button>
+                <button class="tool-btn" id="btn-arrow" title="Arrow Tool">↗ Arrow</button>
                 <button class="tool-btn danger" id="btn-clear" title="Clear All Drawings">🗑 All</button>
             </div>
-        </div>
 
-        <!-- Row 2: Modes and Actions -->
-        <div class="action-row" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-            <div class="mode-controls">
-                <button class="mode-btn" id="btn-mute" title="Mute/Unmute">🔇</button>
-                <button class="mode-btn" id="btn-full">↕ Top-Bottom</button>
-                <button class="mode-btn" id="btn-sbs">↔ Side-by-Side</button>
-                <button class="mode-btn active" id="btn-left">👁 L</button>
-                <button class="mode-btn" id="btn-right">👁 R</button>
+            <div class="property-groups" style="display: flex; gap: 1rem; flex-wrap: wrap; background: rgba(0,0,0,0.4); padding: 0.5rem; border-radius: 8px;">
+            <!-- Colors -->
+            <div class="prop-group">
+                <div class="prop-label">Color</div>
+                <div class="color-grid">
+                    <button class="color-btn active" data-color="#42a5f5" style="background: #42a5f5;" title="Blue"></button>
+                    <button class="color-btn" data-color="#ef5350" style="background: #ef5350;" title="Red"></button>
+                    <button class="color-btn" data-color="#66bb6a" style="background: #66bb6a;" title="Green"></button>
+                    <button class="color-btn" data-color="#ffeb3b" style="background: #ffeb3b;" title="Yellow"></button>
+                    <button class="color-btn" data-color="#ab47bc" style="background: #ab47bc;" title="Purple"></button>
+                    <button class="color-btn" data-color="#ffa726" style="background: #ffa726;" title="Orange"></button>
+                    <button class="color-btn" data-color="#ffffff" style="background: #ffffff;" title="White"></button>
+                    <button class="color-btn" data-color="#000000" style="background: #000000; border: 1px solid #444;" title="Black"></button>
+                </div>
             </div>
-            <div class="action-controls" style="display: flex; gap: 0.5rem; background: rgba(0,0,0,0.4); padding: 0.5rem; border-radius: 8px;">
+
+            <!-- Thickness -->
+            <div class="prop-group">
+                <div class="prop-label">Size</div>
+                <div class="option-row">
+                    <button class="opt-btn" data-val="2" title="Small Thickness">S</button>
+                    <button class="opt-btn active" data-val="4" title="Medium Thickness">M</button>
+                    <button class="opt-btn" data-val="8" title="Large Thickness">L</button>
+                </div>
+            </div>
+
+            <!-- Style -->
+            <div class="prop-group">
+                <div class="prop-label">Style</div>
+                <div class="option-row">
+                    <button class="opt-btn active" data-val="solid" title="Solid Line">―</button>
+                    <button class="opt-btn" data-val="dashed" title="Dashed Line">---</button>
+                </div>
+            </div>
+
+            <!-- Fill -->
+            <div class="prop-group">
+                <div class="prop-label">Fill</div>
+                <div class="option-row">
+                    <button class="opt-btn active" data-val="none" title="No Fill">None</button>
+                    <button class="opt-btn" data-val="low" title="25% Opacity Fill">1/4</button>
+                    <button class="opt-btn" data-val="mid" title="50% Opacity Fill">1/2</button>
+                    <button class="opt-btn" data-val="full" title="100% Opacity Fill">Full</button>
+                </div>
+            </div>
+            </div>
+            </div>
+            <!-- Row 2: Modes and Actions -->
+            <div class="action-row" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <div class="mode-controls">
+            <button class="mode-btn" id="btn-full" title="Top-Bottom View">↕ Top-Bottom</button>
+            <button class="mode-btn" id="btn-sbs" title="Side-by-Side View">↔ Side-by-Side</button>
+            <button class="mode-btn active" id="btn-left" title="Left Eye Only">👁 L</button>
+            <button class="mode-btn" id="btn-right" title="Right Eye Only">👁 R</button>
+            </div>            <div class="action-controls" style="display: flex; gap: 0.5rem; background: rgba(0,0,0,0.4); padding: 0.5rem; border-radius: 8px;">
                 <button class="tool-btn" id="btn-defaults" title="Load Default Annotations">⭐ Default Annotations</button>
                 <button class="tool-btn success" id="btn-copy-json" title="Copy Annotations JSON">📋 Copy JSON</button>
                 <button class="tool-btn danger" id="btn-reset" title="Reset All State & Refresh">🔄</button>
-                </div>
-                </div>
+            </div>
+        </div>
 
-                <div class="progress-container" id="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+        <div class="progress-container" id="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
 
-                <div class="button-group">
-                <button id="play-pause" class="transport-btn primary" title="Play/Pause">▶</button>                <button id="btn-restart" class="transport-btn" title="Restart to Start">⏮</button>
+        <div class="button-group">
+            <button id="btn-mute" class="transport-btn" title="Mute/Unmute">🔇</button>
+            <button id="play-pause" class="transport-btn primary" title="Play/Pause">▶</button>                <button id="btn-restart" class="transport-btn" title="Restart to Start">⏮</button>
                 <button id="rewind" class="transport-btn" title="Rewind 10s">⏪</button>
                 <button id="forward" class="transport-btn" title="Forward 10s">⏩</button>
                 <div class="time-info"><span>Time: <b id="current-time">00:00:00</b></span><span>Remaining: <b id="time-remaining">00:00:00</b></span></div>

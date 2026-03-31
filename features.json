@@ -138,5 +138,12 @@
     "description": "Implement 'Spatial Hand/Controller Input'. Allow analysts to draw tactical graphics in 3D space using Quest 3 Passthrough and spatial input tracking.",
     "status": "pending",
     "completedAt": null
+  },
+  {
+    "id": 21,
+    "scope": "Telestration POC / Reveal Logic",
+    "description": "Implement 'Progressive Reveal vs. Instant Display'. Define reveal styles (Draw-on, Fade-on, or Instant) as a configurable option per annotation or per annotation type basis.",
+    "status": "pending",
+    "completedAt": null
   }
 ]

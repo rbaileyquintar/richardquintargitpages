@@ -15,6 +15,7 @@
             --homography-glow: rgba(66, 165, 245, 0.2);
             --ai-glow: rgba(171, 71, 188, 0.2);
             --xr-glow: rgba(0, 230, 118, 0.2);
+            --reveal-glow: rgba(255, 167, 38, 0.2);
         }
 
         body {
@@ -121,6 +122,11 @@
             background: linear-gradient(90deg, var(--card-bg) 0%, var(--xr-glow) 100%);
         }
 
+        .feature-card.reveal-logic {
+            border-left-color: #ffa726;
+            background: linear-gradient(90deg, var(--card-bg) 0%, var(--reveal-glow) 100%);
+        }
+
         .feature-id {
             background: #333;
             color: var(--primary);
@@ -172,6 +178,11 @@
             color: #000;
         }
 
+        .badge.reveal-badge {
+            background: #ffa726;
+            color: #000;
+        }
+
         footer {
             text-align: center;
             padding: 4rem 2rem;
@@ -190,7 +201,7 @@
     <div class="container">
         <header>
             <h1>Telestration Roadmap</h1>
-            <p class="subtitle">A 20-point architectural plan for elite sports analysis and immersive storytelling.</p>
+            <p class="subtitle">A 21-point architectural plan for elite sports analysis and immersive storytelling.</p>
         </header>
 
         <div class="section-title">Phase 1: Infrastructure, UX & Persistence</div>
@@ -227,8 +238,16 @@
                 </div>
             </div>
 
-            <div class="feature-card ui-infra">
+            <div class="feature-card reveal-logic">
                 <div class="feature-id">05</div>
+                <div class="feature-content">
+                    <h3>Progressive Reveal & Drawing Animation <span class="badge reveal-badge">UX Logic</span></h3>
+                    <p>Configure reveal styles (Draw-on, Fade-on, or Instant) as a per-annotation or per-type option.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">06</div>
                 <div class="feature-content">
                     <h3>Annotation Serialization & Playback</h3>
                     <p>Persistence engine to record tactical sequences and auto-load them based on video filename.</p>
@@ -236,7 +255,7 @@
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">06</div>
+                <div class="feature-id">07</div>
                 <div class="feature-content">
                     <h3>JSON Data Export</h3>
                     <p>One-click clipboard export of the entire tactical sequence for sharing and external analysis.</p>
@@ -244,7 +263,7 @@
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">07</div>
+                <div class="feature-id">08</div>
                 <div class="feature-content">
                     <h3>Sequence Management & Selection</h3>
                     <p>UI for checking in external tactical files and hot-swapping between multiple reviews.</p>
@@ -252,7 +271,7 @@
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">08</div>
+                <div class="feature-id">09</div>
                 <div class="feature-content">
                     <h3>View Snapshot & Export</h3>
                     <p>Context-aware image capture (Full TB, Left, or Right views) with burned-in annotations.</p>
@@ -260,7 +279,7 @@
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">09</div>
+                <div class="feature-id">10</div>
                 <div class="feature-content">
                     <h3>Movement Echo Trails</h3>
                     <p>Display a fading 'ghost' path representing a player's historical trajectory over time.</p>
@@ -268,7 +287,7 @@
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">10</div>
+                <div class="feature-id">11</div>
                 <div class="feature-content">
                     <h3>Tactical Voice Annotation</h3>
                     <p>Synchronized audio narration recording tied to the video timeline and tactical highlights.</p>
@@ -279,7 +298,7 @@
         <div class="section-title">Phase 2: Coordinate Engine, AI & Perspective</div>
         <div class="feature-grid">
             <div class="feature-card homography">
-                <div class="feature-id">11</div>
+                <div class="feature-id">12</div>
                 <div class="feature-content">
                     <h3>Coordinate-Aware Canvas <span class="badge homography-badge">Homography</span></h3>
                     <p>Foundation for mapping 2D screen coordinates to 3D pitch space using normalized vectors.</p>
@@ -287,7 +306,7 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">12</div>
+                <div class="feature-id">13</div>
                 <div class="feature-content">
                     <h3>Field Corner Calibration <span class="badge homography-badge">Homography</span></h3>
                     <p>Dual-view calibration using hollow donuts to compute the View-to-View matrix (H_LR).</p>
@@ -295,7 +314,7 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">13</div>
+                <div class="feature-id">14</div>
                 <div class="feature-content">
                     <h3>Perspective Tactical Arrow <span class="badge homography-badge">Homography</span></h3>
                     <p>Ground-tethered vectors that narrow toward the vanishing point for professional broadcast aesthetic.</p>
@@ -303,7 +322,7 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">14</div>
+                <div class="feature-id">15</div>
                 <div class="feature-content">
                     <h3>Tracking Player Halo <span class="badge homography-badge">Homography</span></h3>
                     <p>'Open Base' highlights rendered behind player legs with perspective-correct scaling.</p>
@@ -311,7 +330,7 @@
             </div>
 
             <div class="feature-card ai-advanced">
-                <div class="feature-id">15</div>
+                <div class="feature-id">16</div>
                 <div class="feature-content">
                     <h3>AI Snap-to-Player <span class="badge ai-badge">AI / Tracking</span></h3>
                     <p>Automatic centering of highlights using real-time object detection and bounding box alignment.</p>
@@ -319,7 +338,7 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">16</div>
+                <div class="feature-id">17</div>
                 <div class="feature-content">
                     <h3>3D Occupancy Zones <span class="badge homography-badge">Homography</span></h3>
                     <p>Perspective polygons with 'Spotlight Mode' to isolate tactical blocks and scoring areas.</p>
@@ -327,7 +346,7 @@
             </div>
 
             <div class="feature-card ai-advanced">
-                <div class="feature-id">17</div>
+                <div class="feature-id">18</div>
                 <div class="feature-content">
                     <h3>Biometric Data Cards <span class="badge ai-badge">Data Fusion</span></h3>
                     <p>Real-time performance metrics (speed, HR) tethered to tracked player halos in 3D space.</p>
@@ -335,7 +354,7 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">18</div>
+                <div class="feature-id">19</div>
                 <div class="feature-content">
                     <h3>Depth Anchoring <span class="badge homography-badge">Homography</span></h3>
                     <p>Z-plane alignment tool to synchronize graphic depth with player baselines.</p>
@@ -346,7 +365,7 @@
         <div class="section-title">Phase 3: Quest 3 Immersive Support</div>
         <div class="feature-grid">
             <div class="feature-card xr-support">
-                <div class="feature-id">19</div>
+                <div class="feature-id">20</div>
                 <div class="feature-content">
                     <h3>Stereoscopic WebXR Playback <span class="badge xr-badge">Quest 3</span></h3>
                     <p>3D viewing of Top-Bottom HLS streams with depth-accurate spatial annotations and parallax.</p>
@@ -354,7 +373,7 @@
             </div>
 
             <div class="feature-card xr-support">
-                <div class="feature-id">20</div>
+                <div class="feature-id">21</div>
                 <div class="feature-content">
                     <h3>Spatial Hand/Controller Input <span class="badge xr-badge">Quest 3</span></h3>
                     <p>Immersive tactical editing using Quest 3 spatial input and passthrough for real-world contextual drawing.</p>
