@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "scope": "Telestration POC",
+    "description": "Support HLS streaming with transport controls, timestamp display, and time remaining. Default video: 'Stream 40Mbps' (URL: https://streams.quintar.ai/kyle/20251207-red-green/40Mbps/index.m3u8, Target: 40 Mbps, Actual: 28.2 Mbps).",
+    "status": "pending",
+    "completedAt": null
+  }
+]
