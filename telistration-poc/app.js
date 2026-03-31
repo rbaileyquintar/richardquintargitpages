@@ -19,6 +19,7 @@ const btnRight = document.getElementById('btn-right');
 const btnSelect = document.getElementById('btn-select');
 const btnEllipse = document.getElementById('btn-ellipse');
 const btnCurve = document.getElementById('btn-curve');
+const btnDefaults = document.getElementById('btn-defaults');
 const btnCopyJson = document.getElementById('btn-copy-json');
 const btnClear = document.getElementById('btn-clear');
 const btnReset = document.getElementById('btn-reset');
@@ -36,17 +37,59 @@ let isDrawing = false;
 let activeShapeId = null;
 let startX, startY;
 
-const STORAGE_KEY = 'richard_poc_state_v5';
+const STORAGE_KEY = 'richard_poc_state_v6';
 
 // Persistence Logic
 function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ shapes, currentMode, isMuted: video.muted }));
 }
 
+async function loadDefaults() {
+    try {
+        const response = await fetch('default_annotations.json');
+        const defaultShapes = await response.json();
+        
+        let added = 0;
+        defaultShapes.forEach(ds => {
+            if (!shapes.find(s => s.id === ds.id)) {
+                shapes.push(ds);
+                renderShape(ds);
+                added++;
+            }
+        });
+        if (added > 0) {
+            saveState();
+            updateVisibility();
+        }
+    } catch (e) {
+        console.error("Failed to load defaults:", e);
+    }
+}
+
+function renderShape(s) {
+    [layerLeft, layerRight].forEach(layer => {
+        let el;
+        if (s.type === 'ellipse') { 
+            el = document.createElement('div'); el.className = 'ellipse-element'; 
+            layer.appendChild(el); 
+        } else { 
+            el = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            el.setAttribute('class', 'curve-element'); 
+            layer.querySelector('svg').appendChild(el); 
+        }
+        el.dataset.id = s.id; el.style.pointerEvents = 'auto';
+        el.addEventListener('mousedown', (ev) => { if (activeTool === 'select') { ev.stopPropagation(); handleShapeClick(s.id); } });
+        updateElementStyles(el, s);
+    });
+}
+
 function loadState() {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (!saved) return;
+        if (!saved) {
+            loadDefaults(); // Load defaults on first run
+            return;
+        }
         const state = JSON.parse(saved);
         
         if (state.currentMode) setMode(state.currentMode);
@@ -55,16 +98,7 @@ function loadState() {
         
         if (state.shapes) {
             shapes = state.shapes;
-            shapes.forEach(s => {
-                [layerLeft, layerRight].forEach(layer => {
-                    let el;
-                    if (s.type === 'ellipse') { el = document.createElement('div'); el.className = 'ellipse-element'; layer.appendChild(el); }
-                    else { el = document.createElementNS("http://www.w3.org/2000/svg", "path"); el.setAttribute('class', 'curve-element'); layer.querySelector('svg').appendChild(el); }
-                    el.dataset.id = s.id; el.style.pointerEvents = 'auto';
-                    el.addEventListener('mousedown', (ev) => { if (activeTool === 'select') { ev.stopPropagation(); handleShapeClick(s.id); } });
-                    updateElementStyles(el, s);
-                });
-            });
+            shapes.forEach(s => renderShape(s));
             updateVisibility();
         }
     } catch (e) {
@@ -110,6 +144,7 @@ function selectTool(tool) {
 btnSelect.addEventListener('click', () => selectTool('select'));
 btnEllipse.addEventListener('click', () => selectTool('ellipse'));
 btnCurve.addEventListener('click', () => selectTool('curve'));
+btnDefaults.addEventListener('click', loadDefaults);
 
 btnCopyJson.addEventListener('click', () => {
     const data = JSON.stringify(shapes, null, 2);
