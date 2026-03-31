@@ -3,41 +3,90 @@
     "id": 1,
     "scope": "Telestration POC / Infrastructure",
     "description": "Support HLS streaming with transport controls, timestamp display, and J-K-L frame-accurate scrubbing. Default video: 'Stream 40Mbps'.",
-    "status": "complete",
-    "completedAt": "2026-03-31"
-  },
-  {
-    "id": 2,
-    "scope": "Telestration POC / Core Engine",
-    "description": "Implement a coordinate-aware Canvas overlay. Support normalized (0-1) coordinate mapping and a basic Homography Matrix (H) for perspective-correct rendering.",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 3,
+    "id": 2,
     "scope": "Telestration POC / Tools",
     "description": "Implement 'Temporal Pinning' for graphics, allowing annotations to have specific start/end timestamps on the HLS timeline.",
     "status": "pending",
     "completedAt": null
   },
   {
+    "id": 3,
+    "scope": "Telestration POC / UI/UX",
+    "description": "Implement 'Tool Property Bar'. Add color and thickness selection to the toolbar. These act as defaults for new shapes. Support shape selection and real-time property modification for existing annotations.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
     "id": 4,
-    "scope": "Telestration POC / Graphics",
-    "description": "Develop the 'Perspective-Correct Tactical Arrow' with isosceles arrowhead geometry and grass-tethering logic.",
+    "scope": "Telestration POC / Persistence",
+    "description": "Implement 'Annotation Serialization & Playback'. Record shapes/changes with video timecodes to a JSON file matching the video filename. Auto-load and playback annotations upon video reload.",
     "status": "pending",
     "completedAt": null
   },
   {
     "id": 5,
-    "scope": "Telestration POC / Graphics",
-    "description": "Develop the 'Tracking Player Halo' with Open Base logic (rendered behind legs) and a 2s pulse animation.",
+    "scope": "Telestration POC / Data Portability",
+    "description": "Implement 'JSON Export' feature. Allow the analyst to copy the entire shape playback sequence (Annotation Registry) to the clipboard for sharing or external analysis.",
     "status": "pending",
     "completedAt": null
   },
   {
     "id": 6,
+    "scope": "Telestration POC / File Management",
+    "description": "Implement 'Sequence Management & Selection'. Allow users to import/check-in JSON shape sequence files and select them from a list in the player for playback.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 7,
+    "scope": "Telestration POC / View Export",
+    "description": "Implement 'View Snapshot & Export'. Allow analysts to capture a 'map' of the current displayed screen format (Left, Right, Full TB) with all active annotations included for presentations and reporting.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 8,
+    "scope": "Telestration POC / Core Engine",
+    "description": "Implement a coordinate-aware Canvas overlay. Support normalized (0-1) coordinate mapping and a basic Homography Matrix (H) for perspective-correct rendering.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 9,
+    "scope": "Telestration POC / Calibration",
+    "description": "Implement 'Field Corner Tool' for dual-view calibration. Use hollow donut shapes (Blue for Left, Red for Right) to mark 4 corners. Compute homography (H_LR) to transfer graphics between frames. Add toolbar icon for 'Field Calibration'.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 10,
+    "scope": "Telestration POC / Graphics",
+    "description": "Develop the 'Perspective-Correct Tactical Arrow' with isosceles arrowhead geometry and grass-tethering logic. (Requires Homography)",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 11,
+    "scope": "Telestration POC / Graphics",
+    "description": "Develop the 'Tracking Player Halo' with Open Base logic (rendered behind legs) and a 2s pulse animation. (Requires Homography)",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 12,
     "scope": "Telestration POC / Analysis",
-    "description": "Implement '3D Occupancy Zones' (Polygons) with a 'Spotlight Mode' that blurs/desaturates pixels outside the selected zone.",
+    "description": "Implement '3D Occupancy Zones' (Polygons) with a 'Spotlight Mode' that blurs/desaturates pixels outside the selected zone. (Requires Homography)",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 13,
+    "scope": "Telestration POC / Depth Calibration",
+    "description": "Implement 'Depth Anchoring'. Allow analysts to set a Y-position baseline for the bottom of an illustration plane. This synchronizes the graphic's depth with the player's feet, ensuring perspective alignment. (Requires Homography)",
     "status": "pending",
     "completedAt": null
   }
