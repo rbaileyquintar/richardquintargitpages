@@ -3,31 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Richard Quintar's Pages</title>
+    <title>Richard Quintar | Hub</title>
     <style>
+        :root {
+            --primary: #0076d6;
+            --secondary: #555;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: var(--card-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        header {
+            padding: 4rem 2rem;
             text-align: center;
         }
-        h1 { color: #0076d6; }
-        .container {
-            border: 1px solid #ddd;
-            border-radius: 8px;
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        .hub-container {
+            max-width: 1000px;
+            margin: 0 auto;
             padding: 2rem;
-            background: #f9f9f9;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h2 {
+            margin: 0.5rem 0;
+            color: var(--primary);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .status-badge {
+            background: #e0e0e0;
+            color: #666;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 1rem;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Richard Quintar's Web Pages</h1>
-        <p>Welcome! This site is currently under development.</p>
-        <p>I'll be adding new pages and documentation here soon.</p>
-    </div>
+
+    <nav>
+        <a href="index.html" class="logo">Richard Quintar</a>
+        <ul>
+            <li><a href="index.html">Hub</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Resource Hub</h1>
+        <p class="subtitle">Quick access to documentation, tests, and active projects.</p>
+    </header>
+
+    <main class="hub-container">
+        <!-- Card 1: WebAR Tests -->
+        <a href="#" class="card">
+            <div class="icon">🚀</div>
+            <h2>WebAR Tests</h2>
+            <p>Experimental augmented reality tests and graphics implementations.</p>
+            <span class="status-badge">Upcoming</span>
+        </a>
+
+        <!-- Card 2: Documentation -->
+        <a href="#" class="card">
+            <div class="icon">📚</div>
+            <h2>Documentation</h2>
+            <p>Project wikis, technical guides, and architecture overviews.</p>
+            <span class="status-badge">Drafting</span>
+        </a>
+
+        <!-- Card 3: Portfolio -->
+        <a href="#" class="card">
+            <div class="icon">💼</div>
+            <h2>Portfolio</h2>
+            <p>Showcase of completed work and professional background.</p>
+            <span class="status-badge">Planning</span>
+        </a>
+    </main>
+
+    <footer>
+        &copy; 2026 Richard Quintar | Built with GitHub Pages
+    </footer>
+
 </body>
 </html>
