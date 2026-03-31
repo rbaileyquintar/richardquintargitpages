@@ -5,7 +5,7 @@ const progressBar = document.getElementById('progress-bar');
 const progressContainer = document.getElementById('progress-container');
 const currentTimeEl = document.getElementById('current-time');
 const timeRemainingEl = document.getElementById('time-remaining');
-const muteOverlay = document.getElementById('mute-overlay');
+const btnMute = document.getElementById('btn-mute');
 const qrTrigger = document.getElementById('qr-trigger');
 const qrModal = document.getElementById('qr-modal');
 const qrClose = document.querySelector('.qr-close');
@@ -32,7 +32,7 @@ const sbsCtx = sbsCanvas.getContext('2d');
 
 // State
 let shapes = []; 
-let currentMode = 'sbs';
+let currentMode = 'left';
 let activeTool = null;
 let selectedShapeId = null;
 let isDrawing = false;
@@ -41,7 +41,7 @@ let startX, startY;
 let showDefaults = true;
 let defaultIds = new Set();
 
-const STORAGE_KEY = 'richard_poc_state_v10';
+const STORAGE_KEY = 'richard_poc_state_v11';
 
 // HLS Initialization
 const videoSrc = 'https://streams.quintar.ai/kyle/20251207-red-green/40Mbps/index.m3u8';
@@ -153,7 +153,7 @@ async function loadState() {
         const state = JSON.parse(saved);
         if (state.currentMode) setMode(state.currentMode);
         video.muted = state.isMuted !== undefined ? state.isMuted : true;
-        muteOverlay.innerHTML = video.muted ? '🔇 Unmute' : '🔊 Mute';
+        btnMute.innerHTML = video.muted ? '🔇' : '🔊';
         
         showDefaults = state.showDefaults !== undefined ? state.showDefaults : true;
         btnDefaults.classList.toggle('active', showDefaults);
@@ -230,8 +230,8 @@ function renderSbs() {
     if (!video.paused && !video.ended && currentMode === 'sbs') requestAnimationFrame(renderSbs);
 }
 
-video.addEventListener('play', () => { if (currentMode === 'sbs') requestAnimationFrame(renderSbs); playPauseBtn.innerHTML = '⏸ Pause'; });
-video.addEventListener('pause', () => { playPauseBtn.innerHTML = '▶ Play'; });
+video.addEventListener('play', () => { if (currentMode === 'sbs') requestAnimationFrame(renderSbs); playPauseBtn.innerHTML = '⏸'; });
+video.addEventListener('pause', () => { playPauseBtn.innerHTML = '▶'; });
 video.addEventListener('seeked', () => { if (currentMode === 'sbs') requestAnimationFrame(renderSbs); updateVisibility(); });
 
 // Drawing Logic
@@ -304,7 +304,7 @@ function updateVisibility() {
 }
 
 // UI Handlers
-muteOverlay.addEventListener('click', () => { video.muted = !video.muted; muteOverlay.innerHTML = video.muted ? '🔇 Unmute' : '🔊 Mute'; saveState(); });
+btnMute.addEventListener('click', () => { video.muted = !video.muted; btnMute.innerHTML = video.muted ? '🔇' : '🔊'; saveState(); });
 playPauseBtn.addEventListener('click', () => { 
     console.log("Play/Pause clicked. Current state paused:", video.paused);
     if (video.paused) { video.play().catch(e => console.error("Play failed:", e)); } 

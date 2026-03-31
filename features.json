@@ -124,5 +124,19 @@
     "description": "Implement 'Depth Anchoring'. Allow analysts to set a Y-position baseline for the bottom of an illustration plane. This synchronizes the graphic's depth with the player's feet, ensuring perspective alignment. (Requires Homography)",
     "status": "pending",
     "completedAt": null
+  },
+  {
+    "id": 19,
+    "scope": "Telestration POC / Quest 3 Support",
+    "description": "Implement 'Stereoscopic WebXR Playback'. Support 3D viewing of Top-Bottom HLS streams in Quest 3. Map annotations to correct eye parallax for depth-accurate spatial reviews.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 20,
+    "scope": "Telestration POC / Quest 3 Support",
+    "description": "Implement 'Spatial Hand/Controller Input'. Allow analysts to draw tactical graphics in 3D space using Quest 3 Passthrough and spatial input tracking.",
+    "status": "pending",
+    "completedAt": null
   }
 ]

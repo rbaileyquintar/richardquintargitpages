@@ -112,13 +112,6 @@ video {
 .video-container.mode-left video { height: 200%; top: 0; }
 .video-container.mode-right video { height: 200%; top: -100%; }
 
-#mute-overlay {
-    position: absolute; bottom: 15px; left: 15px; z-index: 100;
-    background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
-    color: white; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
-    display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px);
-}
-
 .controls {
     background: var(--card-bg); padding: 1.5rem; border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px; display: flex; flex-direction: column; gap: 1rem;
@@ -164,6 +157,14 @@ footer { text-align: center; padding: 2rem; color: #666; font-size: 0.85rem; }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+    :root {
+        --eye-width: 100vw;
+    }
+
+    .video-container {
+        border-radius: 0;
+    }
+
     nav { padding: 0.5rem 1rem; }
     nav .logo { font-size: 0.9rem; }
     nav .page-title { font-size: 0.9rem; }

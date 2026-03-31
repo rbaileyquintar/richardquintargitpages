@@ -12,7 +12,7 @@ This project, **richardquintargitpages**, is a GitHub Pages site for **Richard Q
 
 Since this is a static site hosted on GitHub Pages:
 
-- **Run Locally:** Open `index.html` in any web browser.
+- **Run Locally:** `python3 -m http.server 8000` (Visit `http://localhost:8000`)
 - **Build/Deploy:** Automatic deployment on `git push` to the `main` branch.
 
 ## Current Project Structure
