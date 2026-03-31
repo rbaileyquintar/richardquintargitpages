@@ -13,6 +13,7 @@
             --text: #e0e0e0;
             --accent: #ffeb3b;
             --homography-glow: rgba(66, 165, 245, 0.2);
+            --ai-glow: rgba(171, 71, 188, 0.2);
         }
 
         body {
@@ -69,7 +70,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-top: 3rem;
+            margin-top: 4rem;
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #333;
@@ -107,6 +108,11 @@
         .feature-card.homography {
             border-left-color: var(--primary);
             background: linear-gradient(90deg, var(--card-bg) 0%, var(--homography-glow) 100%);
+        }
+
+        .feature-card.ai-advanced {
+            border-left-color: #ab47bc;
+            background: linear-gradient(90deg, var(--card-bg) 0%, var(--ai-glow) 100%);
         }
 
         .feature-id {
@@ -150,6 +156,11 @@
             color: #fff;
         }
 
+        .badge.ai-badge {
+            background: #ab47bc;
+            color: #fff;
+        }
+
         footer {
             text-align: center;
             padding: 4rem 2rem;
@@ -168,10 +179,10 @@
     <div class="container">
         <header>
             <h1>Telestration Roadmap</h1>
-            <p class="subtitle">A 13-point architectural plan for elite sports analysis.</p>
+            <p class="subtitle">An 18-point architectural plan for elite sports analysis and narrative storytelling.</p>
         </header>
 
-        <div class="section-title">Phase 1: Infrastructure & Data Persistence</div>
+        <div class="section-title">Phase 1: Infrastructure, UX & Persistence</div>
         <div class="feature-grid">
             <div class="feature-card ui-infra">
                 <div class="feature-id">01</div>
@@ -200,13 +211,21 @@
             <div class="feature-card ui-infra">
                 <div class="feature-id">04</div>
                 <div class="feature-content">
+                    <h3>Undo/Redo Stack</h3>
+                    <p>Standardized transactional state management (Ctrl+Z/Ctrl+Y) for all annotation actions.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">05</div>
+                <div class="feature-content">
                     <h3>Annotation Serialization & Playback</h3>
                     <p>Persistence engine to record tactical sequences and auto-load them based on video filename.</p>
                 </div>
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">05</div>
+                <div class="feature-id">06</div>
                 <div class="feature-content">
                     <h3>JSON Data Export</h3>
                     <p>One-click clipboard export of the entire tactical sequence for sharing and external analysis.</p>
@@ -214,7 +233,7 @@
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">06</div>
+                <div class="feature-id">07</div>
                 <div class="feature-content">
                     <h3>Sequence Management & Selection</h3>
                     <p>UI for checking in external tactical files and hot-swapping between multiple reviews.</p>
@@ -222,18 +241,34 @@
             </div>
 
             <div class="feature-card ui-infra">
-                <div class="feature-id">07</div>
+                <div class="feature-id">08</div>
                 <div class="feature-content">
                     <h3>View Snapshot & Export</h3>
                     <p>Context-aware image capture (Full TB, Left, or Right views) with burned-in annotations.</p>
                 </div>
             </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">09</div>
+                <div class="feature-content">
+                    <h3>Movement Echo Trails</h3>
+                    <p>Display a fading 'ghost' path representing a player's historical trajectory over time.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">10</div>
+                <div class="feature-content">
+                    <h3>Tactical Voice Annotation</h3>
+                    <p>Synchronized audio narration recording tied to the video timeline and tactical highlights.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="section-title">Phase 2: Coordinate Engine & Perspective Graphics</div>
+        <div class="section-title">Phase 2: Coordinate Engine, AI & Perspective</div>
         <div class="feature-grid">
             <div class="feature-card homography">
-                <div class="feature-id">08</div>
+                <div class="feature-id">11</div>
                 <div class="feature-content">
                     <h3>Coordinate-Aware Canvas <span class="badge homography-badge">Homography</span></h3>
                     <p>Foundation for mapping 2D screen coordinates to 3D pitch space using normalized vectors.</p>
@@ -241,7 +276,7 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">09</div>
+                <div class="feature-id">12</div>
                 <div class="feature-content">
                     <h3>Field Corner Calibration <span class="badge homography-badge">Homography</span></h3>
                     <p>Dual-view calibration using hollow donuts to compute the View-to-View matrix (H_LR).</p>
@@ -249,7 +284,7 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">10</div>
+                <div class="feature-id">13</div>
                 <div class="feature-content">
                     <h3>Perspective Tactical Arrow <span class="badge homography-badge">Homography</span></h3>
                     <p>Ground-tethered vectors that narrow toward the vanishing point for professional broadcast aesthetic.</p>
@@ -257,23 +292,39 @@
             </div>
 
             <div class="feature-card homography">
-                <div class="feature-id">11</div>
+                <div class="feature-id">14</div>
                 <div class="feature-content">
                     <h3>Tracking Player Halo <span class="badge homography-badge">Homography</span></h3>
                     <p>'Open Base' highlights rendered behind player legs with perspective-correct scaling.</p>
                 </div>
             </div>
 
+            <div class="feature-card ai-advanced">
+                <div class="feature-id">15</div>
+                <div class="feature-content">
+                    <h3>AI Snap-to-Player <span class="badge ai-badge">AI / Tracking</span></h3>
+                    <p>Automatic centering of highlights using real-time object detection and bounding box alignment.</p>
+                </div>
+            </div>
+
             <div class="feature-card homography">
-                <div class="feature-id">12</div>
+                <div class="feature-id">16</div>
                 <div class="feature-content">
                     <h3>3D Occupancy Zones <span class="badge homography-badge">Homography</span></h3>
                     <p>Perspective polygons with 'Spotlight Mode' to isolate tactical blocks and scoring areas.</p>
                 </div>
             </div>
 
+            <div class="feature-card ai-advanced">
+                <div class="feature-id">17</div>
+                <div class="feature-content">
+                    <h3>Biometric Data Cards <span class="badge ai-badge">Data Fusion</span></h3>
+                    <p>Real-time performance metrics (speed, HR) tethered to tracked player halos in 3D space.</p>
+                </div>
+            </div>
+
             <div class="feature-card homography">
-                <div class="feature-id">13</div>
+                <div class="feature-id">18</div>
                 <div class="feature-content">
                     <h3>Depth Anchoring <span class="badge homography-badge">Homography</span></h3>
                     <p>Z-plane alignment tool to synchronize graphic depth with player baselines.</p>

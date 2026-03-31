@@ -9,11 +9,16 @@ The technological convergence of computer vision, real-time graphics rendering, 
 - **Basic/Still Mode**: Annotation on a frozen temporal moment.
 - **Temporal Pinning**: Assigning start and end times to graphics within the video timeline.
 - **Sequential Animate**: Multi-step tactical diagrams managed in a prioritized queue.
+- **Undo/Redo Logic**: A transactional state stack (Memento pattern) for all user actions.
 
 ### 2. Dynamic Motion Tracking and AI Integration
-- **SOT/MOT (Single/Multi-Object Tracking)**: Tethering graphics to moving athletes or objects.
+- **SOT/MOT (Single/Multi-Object Tracking)**: Tethering graphics to moving athletes.
+- **AI 'Snap-to-Player'**: Utilizing object detection (e.g., YOLO) to automatically center highlights on athletes' bounding boxes.
 - **AI-Powered Pitch Calibration**: Using deep learning to detect field geometry and calculate the **Homography Matrix (H)**.
 - **Perspective Accuracy**: Ensuring graphics lie flat on the turf.
+
+### 3. Audio and Narrative Layering
+- **Tactical Voice Annotation**: Synchronizing recorded audio commentary to specific timestamps on the telestration timeline, allowing for a complete narrative review.
 
 ---
 
@@ -27,59 +32,60 @@ The technological convergence of computer vision, real-time graphics rendering, 
 
 ---
 
-## View Snapshots and Multi-Format Export
-
-### 1. View-Aware Capture Logic
-The system allows analysts to "Copy" or "Export" a snapshot of the current tactical view. This capture is **context-aware**, meaning it respects the active viewport mode:
-- **Full View**: Captures the entire Top-Bottom stereo frame with all annotations.
-- **Left/Right View**: Captures only the active eye's frame, cropping the video source to 100% height and 50% width, while maintaining the relative positioning of the annotations.
-
-### 2. High-Fidelity Rendering
-When an export is triggered, the system:
-1.  Synchronizes the current `video` frame with the `canvas` layer.
-2.  Renders the combined output into a high-resolution offscreen buffer.
-3.  Includes all active metadata (timecode, stream info, team colors) as an optional watermark or separate data field.
-
-### 3. Sharing and Presentations
-Exported "Maps" are optimized for use in coaching presentations or broadcast reporting, providing a crisp visual summary of the tactical situation at a specific moment in the match.
+### Player Isolation and Analysis
+| Tool | Description | Technical Requirement |
+| :--- | :--- | :--- |
+| **Halos & Rings** | Circular/elliptical graphics at the player's base. | **Open Base Logic**: Hides top half of circle. |
+| **Movement Echoes** | Fading paths showing historical trajectory. | Stores past coordinates for $N$ frames. |
+| **Biometric Cards** | Floating overlays with performance data. | Requires real-time data fusion (e.g., Statcast). |
+| **Spotlight Zones** | Shaded polygons with desaturated exteriors. | Clipping masks with Gaussian blur filters. |
 
 ---
 
-## Tool Property Bar and Property Logic (Selection & Modification)
+## Technical Implementation Logic
 
-### 1. Default Property State
-The Tool Property Bar allows the analyst to set the **Default Color** and **Default Thickness** for all new annotations.
+### Coordinate Transformation & Homography
+The transformation between screen pixels and physical pitch coordinates is governed by the Homography Matrix **H**:
+$$\begin{bmatrix} u \cdot w \\ v \cdot w \\ w \end{bmatrix} = \mathbf{H} \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}$$
 
-### 2. Selection Mode and UI Indicators
-Selected annotations receive visual feedback and synchronize the property bar for real-time modification.
+For Stereo Top-Bottom views, the system computes $\mathbf{H}_{LR}$ to map points between views:
+$$P_{right} = \mathbf{H}_{LR} P_{left}$$
 
 ---
 
 ## Persistence, Serialization, and Sequence Management
 
 ### 1. The Playhead Sync Engine
-The system monitors `video.currentTime` and performs a "Sync Cycle" on every frame.
+The system monitors `video.currentTime` and performs a "Sync Cycle" on every frame, filtering a registry of annotations for visibility.
 
-### 2. Sequence Selection and Import
-Allows analysts to import/check-in external tactical JSON files and hot-swap between different playback sequences.
-
----
-
-## Comparative Mapping by Sport
-
-| Sport | Ranking of Most Common Tools | Primary Operational Modes | Technical Focus Area |
-| :--- | :--- | :--- | :--- |
-| **Soccer** | 1. Offside Lines, 2. Passing Lanes | Motion Tracking, 3D Recon | Pitch geometry calibration. |
-| **Football** | 1. 1st Down Markers, 2. Route Paths | Sequential Animate | Formation identification. |
-| **Basketball** | 1. Shot Arcs, 2. Spacing Links | Real-Time MOT | Court-vision analysis. |
-| **Baseball** | 1. Strike Zone, 2. Pitch Trails | Data Fusion | Pitch-by-pitch accuracy. |
-| **Hockey** | 1. Puck Trails, 2. Skating Paths | High-Frame-Rate Tracking | Rapid puck tracking. |
+### 2. State Serialization Schema
+Annotations are stored in a `Registry` object.
+```json
+{
+  "sequenceId": "defensive-breakdown-1",
+  "videoId": "index.m3u8",
+  "annotations": [
+    {
+      "id": "uuid-1234",
+      "type": "halo",
+      "startTime": 12.45,
+      "endTime": 15.20,
+      "yBaseline": 0.78,
+      "points": [{"x": 0.45, "y": 0.67}],
+      "style": {"color": "#ffeb3b", "thickness": 4},
+      "data": {"speed": "22.4 mph"}
+    }
+  ],
+  "audioUrl": "narration_123.webm"
+}
+```
 
 ---
 
 ## Professional Interaction Flow (UI/UX)
-*   **J-K-L Scrubbing**: The industry standard for frame-accurate navigation.
-*   **Shuttle Controls**: Support for hardware controllers and numeric mapping (1-9) for tool selection.
+*   **J-K-L Scrubbing**: The industry standard for frame-accurate navigation (J: Rewind, K: Pause, L: Fast-Forward).
+*   **Property Bar Selection**: Real-time modification of color and thickness for selected tactical annotations.
+*   **View Export**: Context-aware image capture for Full TB, Left, or Right eye views.
 
 ---
 
@@ -87,11 +93,6 @@ Allows analysts to import/check-in external tactical JSON files and hot-swap bet
 - **Transport Controls**: Play/Pause, J-K-L frame-accurate scrubbing.
 - **Time Analysis**: Real-time timestamp and time remaining calculation.
 - **High Bitrate Support**: Optimized for 40Mbps streams.
-
-### Bitrate Analysis
-| Target | Actual | Status |
-| :--- | :--- | :--- |
-| 40 Mbps | 28.2 Mbps | ✅ Operational |
 
 ---
 *Last Updated: 2026-03-31*

@@ -26,6 +26,7 @@ const btnReset = document.getElementById('btn-reset');
 const btnRestart = document.getElementById('btn-restart');
 const layerLeft = document.getElementById('layer-left');
 const layerRight = document.getElementById('layer-right');
+const drawingCanvas = document.getElementById('drawing-canvas');
 const sbsCanvas = document.getElementById('sbs-canvas');
 const sbsCtx = sbsCanvas.getContext('2d');
 
@@ -37,56 +38,83 @@ let selectedShapeId = null;
 let isDrawing = false;
 let activeShapeId = null;
 let startX, startY;
+let showDefaults = true;
+let defaultIds = new Set();
 
-const STORAGE_KEY = 'richard_poc_state_v8';
+const STORAGE_KEY = 'richard_poc_state_v10';
 
-// HLS Logic - Initialize Early
+// HLS Initialization
 const videoSrc = 'https://streams.quintar.ai/kyle/20251207-red-green/40Mbps/index.m3u8';
 let hls;
 
 function initVideo() {
+    console.log("Initializing Video...");
     if (Hls.isSupported()) {
+        if (hls) hls.destroy();
         hls = new Hls();
         hls.loadSource(videoSrc);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
             console.log("HLS Manifest Parsed");
             loadState();
+            // Optional: Re-enable muted autoplay if stable
+            // video.muted = true;
+            // video.play().catch(e => console.log("Autoplay blocked, waiting for user."));
+        });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+            if (data.fatal) {
+                switch (data.type) {
+                    case Hls.ErrorTypes.NETWORK_ERROR: hls.startLoad(); break;
+                    case Hls.ErrorTypes.MEDIA_ERROR: hls.recoverMediaError(); break;
+                    default: initVideo(); break;
+                }
+            }
         });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = videoSrc;
-        video.addEventListener('loadedmetadata', () => {
-            loadState();
-        });
+        video.addEventListener('loadedmetadata', () => { loadState(); });
     }
 }
 
 // Persistence Logic
 function saveState() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ shapes, currentMode, isMuted: video.muted }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ shapes, currentMode, isMuted: video.muted, showDefaults }));
 }
 
-async function loadDefaults() {
+async function fetchDefaults() {
     try {
         const response = await fetch('default_annotations.json');
         if (!response.ok) throw new Error("HTTP error " + response.status);
-        const defaultShapes = await response.json();
-        
-        let added = 0;
-        defaultShapes.forEach(ds => {
+        const data = await response.json();
+        data.forEach(d => defaultIds.add(d.id));
+        return data;
+    } catch (e) {
+        console.error("Failed to fetch defaults:", e);
+        return [];
+    }
+}
+
+async function toggleDefaults() {
+    showDefaults = !showDefaults;
+    btnDefaults.classList.toggle('active', showDefaults);
+    
+    if (showDefaults) {
+        const defaults = await fetchDefaults();
+        defaults.forEach(ds => {
             if (!shapes.find(s => s.id === ds.id)) {
                 shapes.push(ds);
                 renderShape(ds);
-                added++;
             }
         });
-        if (added > 0) {
-            updateVisibility();
-            saveState();
-        }
-    } catch (e) {
-        console.error("Failed to load defaults:", e);
+    } else {
+        shapes = shapes.filter(s => !defaultIds.has(s.id));
+        document.querySelectorAll('.ellipse-element, .curve-element').forEach(el => {
+            if (defaultIds.has(parseInt(el.dataset.id))) el.remove();
+        });
+        deselectShape();
     }
+    updateVisibility();
+    saveState();
 }
 
 function renderShape(s) {
@@ -108,29 +136,40 @@ function renderShape(s) {
     });
 }
 
-function loadState() {
+async function loadState() {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        loadDefaults().then(() => {
-            if (!saved) return;
-            const state = JSON.parse(saved);
-            if (state.currentMode) setMode(state.currentMode);
-            video.muted = state.isMuted !== undefined ? state.isMuted : true;
-            muteOverlay.innerHTML = video.muted ? '🔇 Unmute' : '🔊 Mute';
-            
-            if (state.shapes) {
-                state.shapes.forEach(s => {
-                    if (!shapes.find(existing => existing.id === s.id)) {
-                        shapes.push(s);
-                        renderShape(s);
-                    }
-                });
-                updateVisibility();
+        const defaults = await fetchDefaults();
+        
+        if (!saved) {
+            showDefaults = true;
+            btnDefaults.classList.add('active');
+            shapes = [...defaults];
+            shapes.forEach(s => renderShape(s));
+            updateVisibility();
+            return;
+        }
+
+        const state = JSON.parse(saved);
+        if (state.currentMode) setMode(state.currentMode);
+        video.muted = state.isMuted !== undefined ? state.isMuted : true;
+        muteOverlay.innerHTML = video.muted ? '🔇 Unmute' : '🔊 Mute';
+        
+        showDefaults = state.showDefaults !== undefined ? state.showDefaults : true;
+        btnDefaults.classList.toggle('active', showDefaults);
+        
+        if (state.shapes) {
+            shapes = state.shapes;
+            if (showDefaults) {
+                defaults.forEach(ds => { if (!shapes.find(existing => existing.id === ds.id)) shapes.push(ds); });
+            } else {
+                shapes = shapes.filter(s => !defaultIds.has(s.id));
             }
-        });
+            shapes.forEach(s => renderShape(s));
+            updateVisibility();
+        }
     } catch (e) {
         console.error("Failed to load state:", e);
-        loadDefaults();
     }
 }
 
@@ -171,7 +210,7 @@ function selectTool(tool) {
 btnSelect.addEventListener('click', () => selectTool('select'));
 btnEllipse.addEventListener('click', () => selectTool('ellipse'));
 btnCurve.addEventListener('click', () => selectTool('curve'));
-btnDefaults.addEventListener('click', loadDefaults);
+btnDefaults.addEventListener('click', toggleDefaults);
 btnCopyJson.addEventListener('click', () => { const data = JSON.stringify(shapes, null, 2); navigator.clipboard.writeText(data).then(() => { const originalText = btnCopyJson.innerHTML; btnCopyJson.innerHTML = '✅ Copied!'; setTimeout(() => btnCopyJson.innerHTML = originalText, 2000); }); });
 btnClear.addEventListener('click', () => { document.querySelectorAll('.ellipse-element, .curve-element').forEach(el => el.remove()); shapes = []; deselectShape(); saveState(); });
 btnReset.addEventListener('click', () => { localStorage.removeItem(STORAGE_KEY); location.reload(); });
@@ -191,13 +230,8 @@ function renderSbs() {
     if (!video.paused && !video.ended && currentMode === 'sbs') requestAnimationFrame(renderSbs);
 }
 
-video.addEventListener('play', () => { 
-    playPauseBtn.innerHTML = '⏸ Pause';
-    if (currentMode === 'sbs') requestAnimationFrame(renderSbs); 
-});
-video.addEventListener('pause', () => {
-    playPauseBtn.innerHTML = '▶ Play';
-});
+video.addEventListener('play', () => { if (currentMode === 'sbs') requestAnimationFrame(renderSbs); playPauseBtn.innerHTML = '⏸ Pause'; });
+video.addEventListener('pause', () => { playPauseBtn.innerHTML = '▶ Play'; });
 video.addEventListener('seeked', () => { if (currentMode === 'sbs') requestAnimationFrame(renderSbs); updateVisibility(); });
 
 // Drawing Logic
@@ -246,11 +280,9 @@ function handleMove(e) {
     let curXGlobal = (clientX - rect.left) / rect.width;
     let curYGlobal = (clientY - rect.top) / rect.height;
     let curX, curY;
-    if (currentMode === 'sbs') {
-        curX = (curXGlobal < 0.5) ? (curXGlobal * 2) : ((curXGlobal - 0.5) * 2); curY = curYGlobal;
-    } else if (currentMode === 'full') {
-        curX = curXGlobal; curY = (curYGlobal < 0.5) ? (curYGlobal * 2) : ((curYGlobal - 0.5) * 2);
-    } else { curX = curXGlobal; curY = curYGlobal; }
+    if (currentMode === 'sbs') { curX = (curXGlobal < 0.5) ? (curXGlobal * 2) : ((curXGlobal - 0.5) * 2); curY = curYGlobal; }
+    else if (currentMode === 'full') { curX = curXGlobal; curY = (curYGlobal < 0.5) ? (curYGlobal * 2) : ((curYGlobal - 0.5) * 2); }
+    else { curX = curXGlobal; curY = curYGlobal; }
     const shape = shapes.find(s => s.id === activeShapeId); if (!shape) return;
     if (shape.type === 'ellipse') { shape.w = Math.abs(curX - startX); shape.h = Math.abs(curY - startY); shape.x = Math.min(curX, startX); shape.y = Math.min(curY, startY); }
     else if (shape.type === 'curve') { shape.x2 = curX; shape.y2 = curY; const midX = (startX + curX) / 2, midY = (startY + curY) / 2; const dx = curX - startX, dy = curY - startY; shape.cpX = midX - dy * 0.2; shape.cpY = midY + dx * 0.2; }
@@ -259,7 +291,6 @@ function handleMove(e) {
 
 function handleEnd() { if (isDrawing) saveState(); isDrawing = false; activeShapeId = null; }
 
-const drawingCanvas = document.getElementById('drawing-canvas');
 drawingCanvas.addEventListener('mousedown', handleStart);
 window.addEventListener('mousemove', handleMove);
 window.addEventListener('mouseup', handleEnd);
@@ -275,21 +306,15 @@ function updateVisibility() {
 // UI Handlers
 muteOverlay.addEventListener('click', () => { video.muted = !video.muted; muteOverlay.innerHTML = video.muted ? '🔇 Unmute' : '🔊 Mute'; saveState(); });
 playPauseBtn.addEventListener('click', () => { 
-    if (video.paused) { 
-        video.play(); 
-    } else { 
-        video.pause(); 
-    } 
+    console.log("Play/Pause clicked. Current state paused:", video.paused);
+    if (video.paused) { video.play().catch(e => console.error("Play failed:", e)); } 
+    else { video.pause(); } 
 });
 btnRestart.addEventListener('click', () => { video.currentTime = 0; video.play(); });
 document.getElementById('rewind').addEventListener('click', () => { video.currentTime -= 10; });
 document.getElementById('forward').addEventListener('click', () => { video.currentTime += 10; });
 
-function formatTime(seconds) { 
-    if (isNaN(seconds) || seconds === Infinity) return '00:00:00'; 
-    const h = Math.floor(seconds / 3600), m = Math.floor((seconds % 3600) / 60), s = Math.floor(seconds % 60); 
-    return [h, m, s].map(v => v < 10 ? '0' + v : v).join(':'); 
-}
+function formatTime(seconds) { if (isNaN(seconds) || seconds === Infinity) return '00:00:00'; const h = Math.floor(seconds / 3600), m = Math.floor((seconds % 3600) / 60), s = Math.floor(seconds % 60); return [h, m, s].map(v => v < 10 ? '0' + v : v).join(':'); }
 
 video.addEventListener('timeupdate', () => {
     if (video.duration && video.duration !== Infinity) {
@@ -309,9 +334,10 @@ progressContainer.addEventListener('click', (e) => {
     }
 });
 
-// Initialization
+// Start initialization
 initVideo();
 
+// QR Modal Trigger
 qrTrigger.addEventListener('click', () => {
     const prodUrl = "https://rbaileyquintar.github.io/richardquintargitpages/telistration-poc/index.html";
     qrTarget.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(prodUrl)}" alt="QR Code">`;

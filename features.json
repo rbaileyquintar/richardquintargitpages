@@ -22,69 +22,104 @@
   },
   {
     "id": 4,
+    "scope": "Telestration POC / UI/UX",
+    "description": "Implement 'Undo/Redo Stack'. Provide standard 'Ctrl+Z/Ctrl+Y' functionality for all annotation creations, deletions, and property changes.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 5,
     "scope": "Telestration POC / Persistence",
     "description": "Implement 'Annotation Serialization & Playback'. Record shapes/changes with video timecodes to a JSON file matching the video filename. Auto-load and playback annotations upon video reload.",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 5,
+    "id": 6,
     "scope": "Telestration POC / Data Portability",
     "description": "Implement 'JSON Export' feature. Allow the analyst to copy the entire shape playback sequence (Annotation Registry) to the clipboard for sharing or external analysis.",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 6,
+    "id": 7,
     "scope": "Telestration POC / File Management",
     "description": "Implement 'Sequence Management & Selection'. Allow users to import/check-in JSON shape sequence files and select them from a list in the player for playback.",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 7,
+    "id": 8,
     "scope": "Telestration POC / View Export",
     "description": "Implement 'View Snapshot & Export'. Allow analysts to capture a 'map' of the current displayed screen format (Left, Right, Full TB) with all active annotations included for presentations and reporting.",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 8,
+    "id": 9,
+    "scope": "Telestration POC / Analysis",
+    "description": "Implement 'Movement Echo Trails'. Display a fading 'ghost' or 'echo' path representing a player's movement over the previous 30-60 frames.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 10,
+    "scope": "Telestration POC / Audio",
+    "description": "Implement 'Tactical Voice Annotation'. Allow analysts to record voice-over commentary that is synchronized to the video playback and telestration timeline.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 11,
     "scope": "Telestration POC / Core Engine",
     "description": "Implement a coordinate-aware Canvas overlay. Support normalized (0-1) coordinate mapping and a basic Homography Matrix (H) for perspective-correct rendering.",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 9,
+    "id": 12,
     "scope": "Telestration POC / Calibration",
     "description": "Implement 'Field Corner Tool' for dual-view calibration. Use hollow donut shapes (Blue for Left, Red for Right) to mark 4 corners. Compute homography (H_LR) to transfer graphics between frames. Add toolbar icon for 'Field Calibration'.",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 10,
+    "id": 13,
     "scope": "Telestration POC / Graphics",
     "description": "Develop the 'Perspective-Correct Tactical Arrow' with isosceles arrowhead geometry and grass-tethering logic. (Requires Homography)",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 11,
+    "id": 14,
     "scope": "Telestration POC / Graphics",
     "description": "Develop the 'Tracking Player Halo' with Open Base logic (rendered behind legs) and a 2s pulse animation. (Requires Homography)",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 12,
+    "id": 15,
+    "scope": "Telestration POC / AI",
+    "description": "Implement 'AI Snap-to-Player'. Utilize real-time object detection (YOLO) to automatically center halos and rings on athletes, snapping the graphic to the player's bounding box.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 16,
     "scope": "Telestration POC / Analysis",
     "description": "Implement '3D Occupancy Zones' (Polygons) with a 'Spotlight Mode' that blurs/desaturates pixels outside the selected zone. (Requires Homography)",
     "status": "pending",
     "completedAt": null
   },
   {
-    "id": 13,
+    "id": 17,
+    "scope": "Telestration POC / Data Fusion",
+    "description": "Implement 'Biometric Data Cards'. Tether real-time performance data (e.g., heart rate, top speed) to tracked player halos, ensuring the card follows the player in 3D space.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 18,
     "scope": "Telestration POC / Depth Calibration",
     "description": "Implement 'Depth Anchoring'. Allow analysts to set a Y-position baseline for the bottom of an illustration plane. This synchronizes the graphic's depth with the player's feet, ensuring perspective alignment. (Requires Homography)",
     "status": "pending",
