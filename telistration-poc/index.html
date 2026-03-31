@@ -33,6 +33,9 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         nav .logo {
@@ -74,11 +77,30 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             position: relative;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
         }
 
         video {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
             display: block;
+            object-fit: fill;
+            transition: transform 0.3s ease, height 0.3s ease, top 0.3s ease;
+        }
+
+        /* Video Modes */
+        .video-container.mode-left video {
+            height: 200%;
+            top: 0;
+        }
+
+        .video-container.mode-right video {
+            height: 200%;
+            top: -100%;
         }
 
         .controls {
@@ -89,6 +111,33 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+        }
+
+        .mode-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: rgba(0,0,0,0.4);
+            padding: 0.5rem;
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--text);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
         }
 
         .progress-container {
@@ -115,7 +164,7 @@
             flex-wrap: wrap;
         }
 
-        button {
+        button.transport-btn {
             background: #333;
             border: none;
             color: var(--text);
@@ -129,11 +178,11 @@
             gap: 0.5rem;
         }
 
-        button:hover {
+        button.transport-btn:hover {
             background: #444;
         }
 
-        button:active {
+        button.transport-btn:active {
             transform: scale(0.98);
         }
 
@@ -203,26 +252,32 @@
         <h1>HLS Streaming POC</h1>
         <p style="color: var(--secondary); margin-bottom: 2rem;">Real-time transport controls and HLS playback visualization.</p>
 
-        <div class="video-container">
+        <div class="video-container" id="video-wrapper">
             <video id="video"></video>
-            
-            <div class="controls">
-                <div class="progress-container" id="progress-container">
-                    <div class="progress-bar" id="progress-bar"></div>
-                </div>
+        </div>
+        
+        <div class="controls">
+            <div class="mode-controls">
+                <button class="mode-btn active" id="btn-full" title="Full Frame (Stereo TB)">🖼 Full</button>
+                <button class="mode-btn" id="btn-left" title="Left Eye">👁 L</button>
+                <button class="mode-btn" id="btn-right" title="Right Eye">👁 R</button>
+            </div>
 
-                <div class="button-group">
-                    <button id="play-pause" class="primary">
-                        <span id="play-icon">▶</span> Play
-                    </button>
-                    <button id="rewind">⏪ -10s</button>
-                    <button id="forward">+10s ⏩</button>
-                    
-                    <div class="time-info">
-                        <span>Time: <b id="current-time">00:00:00</b></span>
-                        <span>Remaining: <b id="time-remaining">00:00:00</b></span>
-                        <span>Duration: <b id="duration">00:00:00</b></span>
-                    </div>
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="button-group">
+                <button id="play-pause" class="transport-btn primary">
+                    <span id="play-icon">▶</span> Play
+                </button>
+                <button id="rewind" class="transport-btn">⏪ -10s</button>
+                <button id="forward" class="transport-btn">+10s ⏩</button>
+                
+                <div class="time-info">
+                    <span>Time: <b id="current-time">00:00:00</b></span>
+                    <span>Remaining: <b id="time-remaining">00:00:00</b></span>
+                    <span>Duration: <b id="duration">00:00:00</b></span>
                 </div>
             </div>
         </div>
@@ -231,6 +286,7 @@
             <h3>Stream Metadata</h3>
             <p>Target Bitrate: <b>40 Mbps</b></p>
             <p>Actual Bitrate: <b>28.2 Mbps</b></p>
+            <p>Format: <b>Stereo Top-Bottom (2x 4K Frames)</b></p>
             <p>Source URL: <a href="https://streams.quintar.ai/kyle/20251207-red-green/40Mbps/index.m3u8" style="color: var(--primary); text-decoration: none;" target="_blank">index.m3u8</a></p>
         </div>
     </div>
