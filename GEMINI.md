@@ -1,24 +1,29 @@
 # GEMINI.md: richardquintargitpages
 
-This project, **richardquintargitpages**, appears to be a GitHub Pages site for `richardquintar`. As of the initial analysis, the directory is fresh and contains no source files.
+This project, **richardquintargitpages**, is a GitHub Pages site for **Richard Quintar** (`rbaileyquintar`). It serves as a resource hub and documentation center for sports telestration systems and related technologies.
 
 ## Project Overview
 
-- **Purpose:** Likely intended to host a personal portfolio, project documentation, or a web application on GitHub Pages.
-- **Technologies:** To be determined based on future implementation (e.g., Jekyll, React, or plain HTML/CSS).
-- **Architecture:** Initial stage; no architecture defined yet.
+- **Purpose:** Central hub for documentation, POCs, and technical analysis of professional sports systems.
+- **Technologies:** HTML, CSS (Vanilla), GitHub Pages.
+- **Architecture:** Static web application utilizing a CSS-variable driven dark theme and modular documentation directory structure.
 
 ## Building and Running
 
-Since this is currently a fresh directory, build and run commands are pending.
+Since this is a static site hosted on GitHub Pages:
 
-- **Build:** `TODO: Define build command (e.g., npm run build, bundle exec jekyll build)`
-- **Run:** `TODO: Define run command (e.g., npm start, bundle exec jekyll serve)`
-- **Test:** `TODO: Define test command (e.g., npm test)`
+- **Run Locally:** Open `index.html` in any web browser.
+- **Build/Deploy:** Automatic deployment on `git push` to the `main` branch.
+
+## Current Project Structure
+
+- `index.html`: The main Resource Hub with a dark-themed navigation menu and grid layout.
+- `telistration-poc/docs/telestration.md`: Advanced documentation on telestration systems.
+- `features.json`: Task list and development roadmap.
 
 ## Development Conventions
 
-The following mandates are carried over from the global workspace context and must be adhered to:
+The following mandates are strictly followed:
 
 ### Core Mandates
 
@@ -39,4 +44,4 @@ The following mandates are carried over from the global workspace context and mu
 
 ---
 
-*Note: This file was generated based on an initial analysis of a fresh directory. Update as the project evolves.*
+*Last Updated: 2026-03-30*
