@@ -46,7 +46,9 @@ function saveState() {
 
 async function loadDefaults() {
     try {
+        console.log("Fetching defaults...");
         const response = await fetch('default_annotations.json');
+        if (!response.ok) throw new Error("HTTP error " + response.status);
         const defaultShapes = await response.json();
         
         let added = 0;
@@ -61,6 +63,7 @@ async function loadDefaults() {
             saveState();
             updateVisibility();
         }
+        console.log(`Loaded ${added} new default shapes.`);
     } catch (e) {
         console.error("Failed to load defaults:", e);
     }
@@ -78,7 +81,17 @@ function renderShape(s) {
             layer.querySelector('svg').appendChild(el); 
         }
         el.dataset.id = s.id; el.style.pointerEvents = 'auto';
-        el.addEventListener('mousedown', (ev) => { if (activeTool === 'select') { ev.stopPropagation(); handleShapeClick(s.id); } });
+        
+        const onSelect = (ev) => {
+            if (activeTool === 'select') {
+                ev.preventDefault();
+                ev.stopPropagation(); 
+                handleShapeClick(s.id); 
+            }
+        };
+        el.addEventListener('mousedown', onSelect);
+        el.addEventListener('touchstart', onSelect, { passive: false });
+        
         updateElementStyles(el, s);
     });
 }
@@ -87,7 +100,7 @@ function loadState() {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (!saved) {
-            loadDefaults(); // Load defaults on first run
+            loadDefaults();
             return;
         }
         const state = JSON.parse(saved);
@@ -103,6 +116,7 @@ function loadState() {
         }
     } catch (e) {
         console.error("Failed to load state:", e);
+        loadDefaults();
     }
 }
 
@@ -204,13 +218,15 @@ function updateElementStyles(el, shape) {
     }
 }
 
-const drawingCanvas = document.getElementById('drawing-canvas');
-drawingCanvas.addEventListener('mousedown', (e) => {
+function handleStart(e) {
     if (!activeTool || activeTool === 'select') return;
     isDrawing = true;
     const rect = drawingCanvas.getBoundingClientRect();
-    let normXGlobal = (e.clientX - rect.left) / rect.width;
-    let normYGlobal = (e.clientY - rect.top) / rect.height;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    let normXGlobal = (clientX - rect.left) / rect.width;
+    let normYGlobal = (clientY - rect.top) / rect.height;
     
     let x, y;
     if (currentMode === 'sbs') {
@@ -236,16 +252,23 @@ drawingCanvas.addEventListener('mousedown', (e) => {
             layer.querySelector('svg').appendChild(el);
         }
         el.dataset.id = newShape.id; el.style.pointerEvents = 'auto';
-        el.addEventListener('mousedown', (ev) => { if (activeTool === 'select') { ev.stopPropagation(); handleShapeClick(newShape.id); } });
+        const onShapeDown = (ev) => { if (activeTool === 'select') { ev.stopPropagation(); handleShapeClick(newShape.id); } };
+        el.addEventListener('mousedown', onShapeDown);
+        el.addEventListener('touchstart', onShapeDown);
         updateElementStyles(el, newShape);
     });
-});
+}
 
-window.addEventListener('mousemove', (e) => {
+function handleMove(e) {
     if (!isDrawing) return;
+    e.preventDefault(); // Prevent scrolling on touch
     const rect = drawingCanvas.getBoundingClientRect();
-    let curXGlobal = (e.clientX - rect.left) / rect.width;
-    let curYGlobal = (e.clientY - rect.top) / rect.height;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    let curXGlobal = (clientX - rect.left) / rect.width;
+    let curYGlobal = (clientY - rect.top) / rect.height;
+    
     let curX, curY;
     if (currentMode === 'sbs') {
         curX = (curXGlobal < 0.5) ? (curXGlobal * 2) : ((curXGlobal - 0.5) * 2); curY = curYGlobal;
@@ -266,9 +289,26 @@ window.addEventListener('mousemove', (e) => {
         shape.cpX = midX - dy * 0.2; shape.cpY = midY + dx * 0.2;
     }
     document.querySelectorAll(`[data-id="${shape.id}"]`).forEach(el => updateElementStyles(el, shape));
-});
+}
 
-window.addEventListener('mouseup', () => { if (isDrawing) saveState(); isDrawing = false; activeShapeId = null; });
+function handleEnd() {
+    if (isDrawing) saveState();
+    isDrawing = false; 
+    activeShapeId = null; 
+}
+
+const drawingCanvas = document.getElementById('drawing-canvas');
+drawingCanvas.addEventListener('mousedown', handleStart);
+window.addEventListener('mousemove', handleMove);
+window.addEventListener('mouseup', handleEnd);
+
+// Touch listeners
+drawingCanvas.addEventListener('touchstart', (e) => {
+    if (activeTool && activeTool !== 'select') e.preventDefault();
+    handleStart(e);
+}, { passive: false });
+window.addEventListener('touchmove', handleMove, { passive: false });
+window.addEventListener('touchend', handleEnd);
 
 function updateVisibility() {
     const now = video.currentTime;
@@ -304,7 +344,12 @@ if (Hls.isSupported()) {
 
 // Transport Controls
 playPauseBtn.addEventListener('click', () => { if (video.paused) { video.play(); playPauseBtn.innerHTML = '⏸ Pause'; } else { video.pause(); playPauseBtn.innerHTML = '▶ Play'; } });
+document.getElementById('btn-restart').addEventListener('click', () => {
+    video.currentTime = 0;
+    if (video.paused) video.play();
+});
 document.getElementById('rewind').addEventListener('click', () => { video.currentTime -= 10; });
+
 document.getElementById('forward').addEventListener('click', () => { video.currentTime += 10; });
 
 function formatTime(seconds) { if (isNaN(seconds)) return '00:00:00'; const h = Math.floor(seconds / 3600), m = Math.floor((seconds % 3600) / 60), s = Math.floor(seconds % 60); return [h, m, s].map(v => v < 10 ? '0' + v : v).join(':'); }
