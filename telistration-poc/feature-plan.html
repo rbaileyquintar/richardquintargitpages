@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Roadmap | Richard Quintar</title>
+    <style>
+        :root {
+            --primary: #42a5f5;
+            --secondary: #9ea7af;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --accent: #ffeb3b;
+            --homography-glow: rgba(66, 165, 245, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        nav {
+            background: var(--card-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #333;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            transition: transform 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateX(5px);
+        }
+
+        .feature-card.ui-infra {
+            border-left-color: var(--secondary);
+        }
+
+        .feature-card.homography {
+            border-left-color: var(--primary);
+            background: linear-gradient(90deg, var(--card-bg) 0%, var(--homography-glow) 100%);
+        }
+
+        .feature-id {
+            background: #333;
+            color: var(--primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+        }
+
+        .feature-content h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .feature-content p {
+            margin: 0.4rem 0 0;
+            color: var(--secondary);
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .badge.homography-badge {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="../index.html" class="logo">Richard Quintar</a>
+        <a href="index.html" style="text-decoration: none; color: var(--secondary); font-size: 0.9rem;">← Back to POC</a>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Telestration Roadmap</h1>
+            <p class="subtitle">A 13-point architectural plan for elite sports analysis.</p>
+        </header>
+
+        <div class="section-title">Phase 1: Infrastructure & Data Persistence</div>
+        <div class="feature-grid">
+            <div class="feature-card ui-infra">
+                <div class="feature-id">01</div>
+                <div class="feature-content">
+                    <h3>HLS Infrastructure & J-K-L Scrubbing</h3>
+                    <p>Frame-accurate transport controls (J: Rewind, K: Pause, L: Fast-Forward) for 40Mbps streams.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">02</div>
+                <div class="feature-content">
+                    <h3>Temporal Pinning</h3>
+                    <p>Logic to assign 'In' and 'Out' points to graphics so they appear/disappear based on the HLS clock.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">03</div>
+                <div class="feature-content">
+                    <h3>Tool Property Bar</h3>
+                    <p>Real-time modification of color and thickness for selected tactical annotations.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">04</div>
+                <div class="feature-content">
+                    <h3>Annotation Serialization & Playback</h3>
+                    <p>Persistence engine to record tactical sequences and auto-load them based on video filename.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">05</div>
+                <div class="feature-content">
+                    <h3>JSON Data Export</h3>
+                    <p>One-click clipboard export of the entire tactical sequence for sharing and external analysis.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">06</div>
+                <div class="feature-content">
+                    <h3>Sequence Management & Selection</h3>
+                    <p>UI for checking in external tactical files and hot-swapping between multiple reviews.</p>
+                </div>
+            </div>
+
+            <div class="feature-card ui-infra">
+                <div class="feature-id">07</div>
+                <div class="feature-content">
+                    <h3>View Snapshot & Export</h3>
+                    <p>Context-aware image capture (Full TB, Left, or Right views) with burned-in annotations.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Phase 2: Coordinate Engine & Perspective Graphics</div>
+        <div class="feature-grid">
+            <div class="feature-card homography">
+                <div class="feature-id">08</div>
+                <div class="feature-content">
+                    <h3>Coordinate-Aware Canvas <span class="badge homography-badge">Homography</span></h3>
+                    <p>Foundation for mapping 2D screen coordinates to 3D pitch space using normalized vectors.</p>
+                </div>
+            </div>
+
+            <div class="feature-card homography">
+                <div class="feature-id">09</div>
+                <div class="feature-content">
+                    <h3>Field Corner Calibration <span class="badge homography-badge">Homography</span></h3>
+                    <p>Dual-view calibration using hollow donuts to compute the View-to-View matrix (H_LR).</p>
+                </div>
+            </div>
+
+            <div class="feature-card homography">
+                <div class="feature-id">10</div>
+                <div class="feature-content">
+                    <h3>Perspective Tactical Arrow <span class="badge homography-badge">Homography</span></h3>
+                    <p>Ground-tethered vectors that narrow toward the vanishing point for professional broadcast aesthetic.</p>
+                </div>
+            </div>
+
+            <div class="feature-card homography">
+                <div class="feature-id">11</div>
+                <div class="feature-content">
+                    <h3>Tracking Player Halo <span class="badge homography-badge">Homography</span></h3>
+                    <p>'Open Base' highlights rendered behind player legs with perspective-correct scaling.</p>
+                </div>
+            </div>
+
+            <div class="feature-card homography">
+                <div class="feature-id">12</div>
+                <div class="feature-content">
+                    <h3>3D Occupancy Zones <span class="badge homography-badge">Homography</span></h3>
+                    <p>Perspective polygons with 'Spotlight Mode' to isolate tactical blocks and scoring areas.</p>
+                </div>
+            </div>
+
+            <div class="feature-card homography">
+                <div class="feature-id">13</div>
+                <div class="feature-content">
+                    <h3>Depth Anchoring <span class="badge homography-badge">Homography</span></h3>
+                    <p>Z-plane alignment tool to synchronize graphic depth with player baselines.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Richard Quintar | Built with GitHub Pages
+    </footer>
+
+</body>
+</html>
