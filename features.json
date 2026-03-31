@@ -1,8 +1,43 @@
 [
   {
     "id": 1,
-    "scope": "Telestration POC",
-    "description": "Support HLS streaming with transport controls, timestamp display, and time remaining. Default video: 'Stream 40Mbps' (URL: https://streams.quintar.ai/kyle/20251207-red-green/40Mbps/index.m3u8, Target: 40 Mbps, Actual: 28.2 Mbps).",
+    "scope": "Telestration POC / Infrastructure",
+    "description": "Support HLS streaming with transport controls, timestamp display, and J-K-L frame-accurate scrubbing. Default video: 'Stream 40Mbps'.",
+    "status": "complete",
+    "completedAt": "2026-03-31"
+  },
+  {
+    "id": 2,
+    "scope": "Telestration POC / Core Engine",
+    "description": "Implement a coordinate-aware Canvas overlay. Support normalized (0-1) coordinate mapping and a basic Homography Matrix (H) for perspective-correct rendering.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 3,
+    "scope": "Telestration POC / Tools",
+    "description": "Implement 'Temporal Pinning' for graphics, allowing annotations to have specific start/end timestamps on the HLS timeline.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 4,
+    "scope": "Telestration POC / Graphics",
+    "description": "Develop the 'Perspective-Correct Tactical Arrow' with isosceles arrowhead geometry and grass-tethering logic.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 5,
+    "scope": "Telestration POC / Graphics",
+    "description": "Develop the 'Tracking Player Halo' with Open Base logic (rendered behind legs) and a 2s pulse animation.",
+    "status": "pending",
+    "completedAt": null
+  },
+  {
+    "id": 6,
+    "scope": "Telestration POC / Analysis",
+    "description": "Implement '3D Occupancy Zones' (Polygons) with a 'Spotlight Mode' that blurs/desaturates pixels outside the selected zone.",
     "status": "pending",
     "completedAt": null
   }
