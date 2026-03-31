@@ -6,8 +6,8 @@
     --text: #e0e0e0;
     --danger: #ef5350;
     --success: #66bb6a;
-    --eye-width: 45vw; 
-    --eye-height: calc(var(--eye-width) * 9 / 16);
+    --player-width: 98vw; 
+    --eye-height: calc(var(--player-width) * 9 / 16);
 }
 
 body {
@@ -52,13 +52,13 @@ nav a:hover { color: var(--primary); }
     background: #000; border-radius: 12px; overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;
     cursor: default; transition: all 0.3s ease; margin: 0 auto;
-    width: var(--eye-width); height: calc(var(--eye-height) * 2);
+    width: var(--player-width);
 }
 
-.video-container.mode-full { width: var(--eye-width); height: calc(var(--eye-height) * 2); }
-.video-container.mode-sbs  { width: calc(var(--eye-width) * 2); height: var(--eye-height); }
+.video-container.mode-full { height: calc(var(--eye-height) * 2); }
+.video-container.mode-sbs  { height: calc(var(--eye-height) / 2); }
 .video-container.mode-left, 
-.video-container.mode-right { width: var(--eye-width); height: var(--eye-height); }
+.video-container.mode-right { height: var(--eye-height); }
 
 .video-container.tool-active { cursor: crosshair; }
 
@@ -120,7 +120,7 @@ video {
 .controls {
     background: var(--card-bg); padding: 1.5rem; border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px; display: flex; flex-direction: column; gap: 1rem;
-    width: min(98vw, calc(var(--eye-width) * 2)); box-sizing: border-box;
+    width: var(--player-width); box-sizing: border-box;
 }
 
 .mode-controls, .tool-controls {
@@ -168,7 +168,7 @@ button.primary { background: var(--primary); color: #fff; }
 .time-info { font-family: monospace; font-size: 0.9rem; display: flex; gap: 1.5rem; color: var(--secondary); }
 .metadata {
     margin-top: 1rem; padding: 1.5rem; background: var(--card-bg); border-radius: 12px;
-    border-left: 4px solid var(--primary); width: min(98vw, calc(var(--eye-width) * 2)); box-sizing: border-box;
+    border-left: 4px solid var(--primary); width: var(--player-width); box-sizing: border-box;
 }
 
 footer { text-align: center; padding: 2rem; color: #666; font-size: 0.85rem; }
