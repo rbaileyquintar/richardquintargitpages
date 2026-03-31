@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telestration POC | Web Canvas</title>
+    <style>
+        :root {
+            --primary: #0076d6;
+            --bg: #1a1a1a;
+            --overlay: rgba(0, 0, 0, 0.7);
+        }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: white;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background: #222;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: #444;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover { background: #555; }
+        .btn.active { background: var(--primary); }
+
+        main {
+            flex-grow: 1;
+            position: relative;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #video-container {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        video {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+
+        .status-overlay {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--overlay);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div><strong>Telestration POC</strong></div>
+        <div class="controls">
+            <button class="btn active" id="btn-arrow">Arrow</button>
+            <button class="btn" id="btn-halo">Halo (Ring)</button>
+            <button class="btn" id="btn-clear">Clear All</button>
+            <a href="../index.html" class="btn" style="text-decoration: none;">Back to Hub</a>
+        </div>
+    </header>
+
+    <main>
+        <div id="video-container">
+            <!-- Placeholder for actual sports video. Using a sample or color block for now. -->
+            <video id="sports-video" loop muted autoplay>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
+            <canvas id="telestrator-canvas"></canvas>
+            <div class="status-overlay">Mode: Perspective Arrow</div>
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('telestrator-canvas');
+        const ctx = canvas.getContext('2d');
+        const video = document.getElementById('sports-video');
+        let drawing = false;
+        let startX, startY;
+        let shapes = [];
+
+        function resizeCanvas() {
+            canvas.width = video.clientWidth;
+            canvas.height = video.clientHeight;
+        }
+
+        window.addEventListener('load', resizeCanvas);
+        window.addEventListener('resize', resizeCanvas);
+
+        canvas.addEventListener('mousedown', (e) => {
+            drawing = true;
+            startX = e.offsetX;
+            startY = e.offsetY;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!drawing) return;
+            drawAll();
+            drawArrow(startX, startY, e.offsetX, e.offsetY, true);
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            if (!drawing) return;
+            drawing = false;
+            shapes.push({ type: 'arrow', x1: startX, y1: startY, x2: e.offsetX, y2: e.offsetY });
+        });
+
+        function drawArrow(x1, y1, x2, y2, isPreview = false) {
+            const headlen = 20;
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = '#0076d6';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.shadowBlur = isPreview ? 0 : 10;
+            ctx.shadowColor = 'rgba(0,118,214,0.5)';
+            ctx.stroke();
+
+            // Arrowhead
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - headlen * Math.cos(angle - Math.PI / 6), y2 - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(x2 - headlen * Math.cos(angle + Math.PI / 6), y2 - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fillStyle = '#0076d6';
+            ctx.fill();
+        }
+
+        function drawAll() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            shapes.forEach(shape => {
+                if (shape.type === 'arrow') drawArrow(shape.x1, shape.y1, shape.x2, shape.y2);
+            });
+        }
+
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            shapes = [];
+            drawAll();
+        });
+
+        // Simple loop to keep canvas in sync with video if it moves/resizes
+        setInterval(resizeCanvas, 1000);
+    </script>
+</body>
+</html>
