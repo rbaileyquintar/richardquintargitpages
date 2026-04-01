@@ -145,5 +145,12 @@
     "description": "Implement 'Progressive Reveal vs. Instant Display'. Define reveal styles (Draw-on, Fade-on, or Instant) as a configurable option per annotation or per annotation type basis.",
     "status": "pending",
     "completedAt": null
+  },
+  {
+    "id": 22,
+    "scope": "Johns Video Splicer",
+    "description": "High-fidelity hardware-inspired video splicer with HLS stereo cross-fade, shuttle controls, timeline regions, and audio waveform visualization.",
+    "status": "completed",
+    "completedAt": "2026-04-01"
   }
 ]

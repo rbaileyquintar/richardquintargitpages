@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John's Video Splicer | Digital Splicing Station</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="hardware-theme">
+    <div class="splicer-container">
+        <!-- Header Bar -->
+        <header class="hardware-header">
+            <div class="header-left">
+                <div class="status-indicator">
+                    <span class="led led-green active"></span>
+                    <span class="status-text">DIGITAL SPLICING STATION: FOOTBALL HIGHLIGHTS</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="main-timecode" id="global-timecode">01:34:21:05</div>
+                <div class="vu-meters">
+                    <div class="vu-meter"><div class="vu-bar" style="width: 80%"></div></div>
+                    <div class="vu-meter"><div class="vu-bar" style="width: 65%"></div></div>
+                </div>
+                <button class="icon-btn gear-btn">⚙️</button>
+            </div>
+        </header>
+
+        <main class="splicer-main">
+            <!-- Left: Clip Library -->
+            <section class="panel clip-library-panel">
+                <h2 class="panel-title">CLIP LIBRARY</h2>
+                <div class="clip-list">
+                    <div class="clip-item active">
+                        <div class="clip-thumb" style="background-image: url('../telistration-poc/placeholder_thumb.jpg')"></div>
+                        <span class="clip-name">Packers TD</span>
+                    </div>
+                    <div class="clip-item">
+                        <div class="clip-thumb"></div>
+                        <span class="clip-name">Sack</span>
+                    </div>
+                    <div class="clip-item">
+                        <div class="clip-thumb"></div>
+                        <span class="clip-name">Pick Six</span>
+                    </div>
+                    <div class="clip-item">
+                        <div class="clip-thumb"></div>
+                        <span class="clip-name">Juke Move</span>
+                    </div>
+                </div>
+                <div class="panel-bottom-control">
+                    <div class="knob-container" id="volume-knob-container">
+                        <div class="knob" id="volume-knob"></div>
+                        <span class="knob-label">VOLUME</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Center: Splicing Bay -->
+            <section class="panel splicing-bay-panel">
+                <div class="splicing-header">
+                    <span>SPLICING BAY</span>
+                    <div class="view-modes">
+                        <button class="mode-btn-tiny active" id="mode-left">LEFT</button>
+                        <button class="mode-btn-tiny" id="mode-right">RIGHT</button>
+                        <button class="mode-btn-tiny" id="mode-stereo">STEREO</button>
+                    </div>
+                    <span class="cut-indicator">CUT</span>
+                </div>
+                
+                <div class="splicing-display-container">
+                    <!-- Film Strip Background -->
+                    <div class="film-strip-top"></div>
+                    
+                    <!-- Main Videos for Cross-fade -->
+                    <div class="video-monitor">
+                        <video id="main-video" crossorigin="anonymous" playsinline></video>
+                        <video id="secondary-video" crossorigin="anonymous" playsinline muted></video>
+                        <div class="monitor-label">SPLICING BAY</div>
+                    </div>
+
+                    <div class="film-strip-bottom"></div>
+                </div>
+
+                <!-- Reels Area -->
+                <div class="reels-deck">
+                    <div class="reel-container">
+                        <div class="reel source-a" id="reel-a">
+                            <div class="reel-inner">
+                                <div class="reel-spoke"></div>
+                                <div class="reel-spoke"></div>
+                                <div class="reel-spoke"></div>
+                            </div>
+                        </div>
+                        <span class="reel-label">SOURCE A</span>
+                    </div>
+
+                    <div class="reel-divider">
+                        <div class="divider-indicator red"></div>
+                    </div>
+
+                    <div class="reel-container">
+                        <div class="reel source-b" id="reel-b">
+                            <div class="reel-inner">
+                                <div class="reel-spoke"></div>
+                                <div class="reel-spoke"></div>
+                                <div class="reel-spoke"></div>
+                            </div>
+                        </div>
+                        <span class="reel-label">SOURCE B</span>
+                    </div>
+                </div>
+
+                <!-- Timeline Area -->
+                <div class="timeline-container">
+                    <div class="timeline-header">
+                        <span class="timeline-time">01:23:45:12</span>
+                        <div class="transport-tiny">
+                            <button id="tiny-rewind">⏮</button>
+                            <button id="tiny-play-pause">⏯</button>
+                            <button id="tiny-forward">⏭</button>
+                        </div>
+                        <span class="timeline-time">01:23:45:12</span>
+                    </div>
+                    <div class="tracks">
+                        <div class="track video-track">
+                            <span class="track-label">VIDEO TRACK</span>
+                            <div class="track-content" id="video-track-content">
+                                <!-- Dynamic thumbnails here -->
+                            </div>
+                        </div>
+                        <div class="track audio-track">
+                            <div class="track-label">AUDIO</div>
+                            <div class="track-content" id="audio-track-content">
+                                <canvas id="audio-waveform"></canvas>
+                                <!-- Playhead and regions also sync here -->
+                            </div>
+                        </div>
+                        <div class="playhead" id="main-playhead"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right: Preview & Tools -->
+            <section class="panel tools-panel">
+                <div class="preview-mini-container">
+                    <div class="monitor-panel">
+                        <div class="preview-mini">
+                            <canvas id="preview-canvas"></canvas>
+                            <div class="preview-thumb"></div>
+                        </div>
+                        <div class="timecode-display" id="preview-timecode">01:23:45:12</div>
+                    </div>
+                </div>
+
+                <div class="tools-list-container">
+                    <h2 class="panel-title">TOOLS</h2>
+                    <div class="tools-list">
+                        <div class="tool-btn-hardware active" id="tool-jog">Jog/Shuttle Dial</div>
+                        <div class="tool-btn-hardware" id="tool-cut">Precision Cut</div>
+                        <div class="tool-btn-hardware" id="tool-trans">Transitions</div>
+                        <div class="tool-btn-hardware" id="tool-fx">Effects</div>
+                    </div>
+                </div>
+
+                <div class="bottom-jog">
+                    <div class="timecode-small">01:34:21:05</div>
+                    <div class="knob-container large" id="jog-knob-container">
+                        <div class="knob large-jog" id="jog-knob-right"></div>
+                        <span class="knob-label">JOG WHEEL</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom: Control Deck -->
+        <footer class="control-deck">
+            <div class="control-group power-group">
+                <div class="toggle-container">
+                    <span class="toggle-label">ON</span>
+                    <input type="checkbox" id="power-toggle" checked>
+                    <label for="power-toggle" class="toggle-switch"></label>
+                    <span class="toggle-label">OFF</span>
+                </div>
+                <div class="toggle-container">
+                    <span class="toggle-label">LIGHT</span>
+                    <input type="checkbox" id="light-toggle">
+                    <label for="light-toggle" class="toggle-switch"></label>
+                    <span class="toggle-label">CUT</span>
+                </div>
+            </div>
+
+            <div class="control-group transport-main">
+                <div class="led-indicators">
+                    <span class="led-label">LED MOTORS</span>
+                    <div class="led-row">
+                        <span class="led led-green active"></span>
+                        <div class="led-vu-small"></div>
+                        <span class="led led-green"></span>
+                        <span class="led led-orange"></span>
+                    </div>
+                </div>
+                <div class="transport-buttons">
+                    <div class="btn-with-led">
+                        <span class="led-micro" id="led-play"></span>
+                        <button class="deck-btn" id="deck-play-pause">PLAY/PAUSE</button>
+                    </div>
+                    <div class="btn-with-led">
+                        <span class="led-micro"></span>
+                        <button class="deck-btn" id="deck-rewind">REWIND</button>
+                    </div>
+                    <div class="btn-with-led">
+                        <span class="led-micro"></span>
+                        <button class="deck-btn" id="deck-forward">FORWARD</button>
+                    </div>
+                    <div class="btn-with-led">
+                        <span class="led-micro"></span>
+                        <button class="deck-btn" id="deck-mark-in">MARK IN</button>
+                    </div>
+                    <div class="btn-with-led">
+                        <span class="led-micro"></span>
+                        <button class="deck-btn" id="deck-mark-out">MARK OUT</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group action-group">
+                <div class="display-main">
+                    <div class="display-time">01:34:21:05</div>
+                    <div class="display-remaining">/ 00:08:15:20</div>
+                    <div class="display-status">READY</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="deck-btn rect red" id="deck-splice">SPLICE</button>
+                    <button class="deck-btn rect" id="deck-join">JOIN</button>
+                    <button class="deck-btn rect" id="deck-undo">UNDO</button>
+                    <button class="deck-btn rect" id="deck-delete">DELETE</button>
+                    <button class="deck-btn square red-border" id="deck-cut-btn">X</button>
+                </div>
+            </div>
+
+            <div class="control-group lever-group">
+                <div class="lever-track">
+                    <div class="lever-handle" id="splice-lever"></div>
+                </div>
+                <span class="knob-label">SPLICE LEVER</span>
+            </div>
+
+            <div class="control-group jog-group">
+                <div class="knob-container large">
+                    <div class="knob large-jog" id="jog-knob-main"></div>
+                    <span class="knob-label">JOG WHEEL</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
