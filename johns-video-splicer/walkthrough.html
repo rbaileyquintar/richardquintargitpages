@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johns Video Splicer | Technical Walkthrough</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: #1a1a1a;
+            --accent: #42a5f5;
+            --text: #e0e0e0;
+            --border: #333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .feature-block {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .media-container {
+            width: 100%;
+            border-bottom: 4px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .media-container img {
+            width: 100%;
+            display: block;
+        }
+
+        .content h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+
+        .content p {
+            color: #aaa;
+        }
+
+        .content ul {
+            padding-left: 20px;
+            color: #ccc;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--accent);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent);
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        @media (max-width: 800px) {
+            .feature-block {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Archive: Johns Video Splicer</h1>
+        <p class="intro">High-fidelity technical archival of project features and interaction design.</p>
+    </header>
+
+    <main>
+        <!-- Section 1 -->
+        <section class="feature-block">
+            <div class="media-container">
+                <img src="assets/verify_splicer_interactions_1775074544090.webp" alt="Hardware Interaction">
+            </div>
+            <div class="content">
+                <h2>1. Tactile Hardware UI</h2>
+                <p>A premium industrial interface built with CSS variables and metallic gradients.</p>
+                <ul>
+                    <li><strong>Interactive Knobs</strong>: Realistic 2D rotation with circular steering logic.</li>
+                    <li><strong>Mechanical Buttons</strong>: Functional Play/Pause, Rewind, and Forward buttons with integrated LED indicators.</li>
+                    <li><strong>Rotating Reels</strong>: Real-time visual feedback for playback state.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="feature-block">
+            <div class="media-container">
+                <img src="assets/verify_refinements_final_1775074949477.webp" alt="Stereo Logic">
+            </div>
+            <div class="content">
+                <h2>2. Stereo Engine & Logic</h2>
+                <p>Advanced HLS implementation for 4K stereo production feeds.</p>
+                <ul>
+                    <li><strong>Single-Eye Cropping</strong>: Specialized logic to extract Left/Right eye views from 4K Top-Bottom streams.</li>
+                    <li><strong>Splice Lever</strong>: Real-time stereo cross-fader between channels.</li>
+                    <li><strong>Preview Effects</strong>: Visual "Splice" and "Join" transitions triggered by hardware controls.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section class="feature-block">
+            <div class="content">
+                <h2>3. Persistent Timeline</h2>
+                <p>Data-driven technical feedback system for professional editing.</p>
+                <ul>
+                    <li><strong>Audio Waveform</strong>: Persistent recording of audio levels mapped to the timeline.</li>
+                    <li><strong>Real-Time VU Meters</strong>: High-fidelity frequency analysis via Web Audio API.</li>
+                    <li><strong>Mark In/Out</strong>: Persistent spatial regions for track identification.</li>
+                </ul>
+            </div>
+            <div class="media-container">
+                <img src="assets/verify_horizontal_vu_final_1775077487089.webp" alt="Timeline and Audio">
+            </div>
+        </section>
+    </main>
+
+    <center>
+        <a href="index.html" class="nav-link">RETURN TO STATION</a>
+    </center>
+</div>
+
+</body>
+</html>
